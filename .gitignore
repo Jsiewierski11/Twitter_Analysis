@@ -6,8 +6,8 @@ __pycache__/
 .vscode/
 
 # Jutpyter notebooks checkpoints
-eda/.ipynb_checkpoints/
-eda/.eda-finds.txt.swp
+.ipynb_checkpoints/
+.eda-finds.txt.swp
 
 # data
 data/
