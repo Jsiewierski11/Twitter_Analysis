@@ -10,4 +10,4 @@ if __name__ == '__main__':
     print(type(cleaner.corpus))
     cleaner.tokenize_corpus()
     # print(type(cleaner.corpus))
-    print(cleaner.corpus)
+    print(cleaner.corpus[100])
