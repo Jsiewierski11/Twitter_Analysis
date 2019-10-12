@@ -7,7 +7,8 @@ if __name__ == '__main__':
     corpus = twitter['TweetText'].to_numpy()
 
     cleaner = Cleaner(corpus)
-    print(type(cleaner.corpus))
     cleaner.tokenize_corpus()
-    # print(type(cleaner.corpus))
-    print(cleaner.corpus[100])
+    cleaner.create_tdf()
+    cleaner.print_tdf()
+    lda = cleaner.create_lda_model()
+    cleaner.print_top_words(lda)
