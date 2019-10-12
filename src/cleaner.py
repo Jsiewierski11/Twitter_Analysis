@@ -5,6 +5,7 @@ import pandas as pd
 #gensim
 import gensim
 from gensim.utils import simple_preprocess
+from gensim.utils import to_unicode
 from gensim.parsing.preprocessing import STOPWORDS
 import gensim.corpora as corpora
 from gensim.models import CoherenceModel
@@ -26,10 +27,12 @@ class Cleaner(object):
         
 
     def tokenize_corpus(self):
-        for i, x in enumerate(self.corpus):
-            print(i)
-            self.corpus[i] = self.preprocess(str(x))
-        # self.corpus = [self.preprocess(str(x)) for x in self.corpus]
+        # for i, x in enumerate(self.corpus):
+        #     print(i)
+        #     print(f'from text in tokenize_corpus: {x}')
+        #     x = to_unicode(x, 'UTF-8')
+        #     self.corpus[i] = self.preprocess(x)
+        self.corpus = [self.preprocess(x) for x in self.corpus]
 
 
     def lemmatize_stemming(self, text):
@@ -39,7 +42,9 @@ class Cleaner(object):
 
     def preprocess(self, text,  min_len=0, max_len=240):
         result = []
-        for token in gensim.utils.simple_preprocess(self, text, min_len=min_len, max_len=max_len):
+        # print(f'from text in preprocess: {text}')
+        for token in gensim.utils.simple_preprocess(text, min_len=min_len, max_len=max_len):
+            # print(f'token: {token}')
             if token not in gensim.parsing.preprocessing.STOPWORDS:
-                result.append(lemmatize_stemming(token))
+                result.append(self.lemmatize_stemming(token))
         return result
