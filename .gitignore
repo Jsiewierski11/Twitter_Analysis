@@ -1,0 +1,13 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# venv
+.vscode/
+
+# Jutpyter notebooks checkpoints
+eda/.ipynb_checkpoints/
+eda/.eda-finds.txt.swp
+
+# data
+data/
