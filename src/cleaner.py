@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 from pprint import pprint
+import matplotlib.pyplot as plt
 
 #gensim
 import gensim
@@ -30,13 +31,8 @@ class Cleaner(object):
         self.corpus = corpus
         
 
-    def tokenize_corpus(self):
-        # for i, x in enumerate(self.corpus):
-        #     print(i)
-        #     print(f'from text in tokenize_corpus: {x}')
-        #     x = to_unicode(x, 'UTF-8')
-        #     self.corpus[i] = self.preprocess(x)
-        self.corpus = [self._preprocess(x) for x in self.corpus]
+    def tokenize_corpus(self, custom_stopwords=False):
+        self.corpus = [self._preprocess(x, custom_stopwords=custom_stopwords) for x in self.corpus]
 
     
     def create_tdf(self):
@@ -62,17 +58,58 @@ class Cleaner(object):
         pprint(lda_model.print_topics())
 
 
+    def print_perplexity_coherence(self, lda_model):
+        # Compute Perplexity
+        print('\nPerplexity: ', lda_model.log_perplexity(self.tdf))  # a measure of how good the model is. lower the better.
+        # Compute Coherence Score
+        coherence_model_lda = CoherenceModel(model=lda_model, texts=self.corpus, dictionary=self.id2word, coherence='c_v')
+        coherence_lda = coherence_model_lda.get_coherence()
+        print('\nCoherence Score: ', coherence_lda)
+
+
+    def wc_whole_corpus(self):
+        # y = np.array([np.array(xi) for xi in self.corpus])
+        # y = np.array(self.corpus)
+        y = np.array([y for xi in self.corpus for y in xi])
+        unique, counts = np.unique(y, return_counts=True)
+        return dict(zip(unique, counts))
+
+    
+    def plot_wc(self, wc_dict, n=20, filepath='media/tf.png'):
+        wc = self._sort_wc(wc_dict)
+        wc = wc[:n]
+        fig, ax = plt.subplots(figsize=(15, 10))
+        plt.bar(wc.index, wc[0], color='g')
+        plt.title("Top 10 Most Frequent Words in the Corpus", fontsize=14)
+        plt.xlabel('Words', fontsize=14)
+        plt.ylabel('Term Frequency', fontsize=14)
+        plt.xticks(rotation=90)
+        plt.savefig(filepath)
+
+
+    '''
+    Protected Methods (don't use these methods in main.py)
+    '''
+    def _sort_wc(self, wc_dict):
+        wc_df = pd.DataFrame.from_dict(wc_dict, orient='index')
+        return wc_df.sort_values(by=0, ascending=False)
+
+
     def _lemmatize_stemming(self, text):
         stemmer = SnowballStemmer('english')
         return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
 
 
-    def _preprocess(self, text,  min_len=0, max_len=240):
+    def _preprocess(self, text,  min_len=2, max_len=240, custom_stopwords=False):
         result = []
         # print(f'from text in preprocess: {text}')
+        if custom_stopwords:
+            stopwords = STOPWORDS.union(set(["googl", "appl", "rt", "twitter", "http", "microsoft", "la", "el", "en"]))
+        else:
+            stopwords = STOPWORDS
+
         for token in gensim.utils.simple_preprocess(text, min_len=min_len, max_len=max_len):
-            # print(f'token: {token}')
-            if token not in gensim.parsing.preprocessing.STOPWORDS:
+            if token not in stopwords:
                 result.append(self._lemmatize_stemming(token))
         return result
     

@@ -7,8 +7,19 @@ if __name__ == '__main__':
     corpus = twitter['TweetText'].to_numpy()
 
     cleaner = Cleaner(corpus)
-    cleaner.tokenize_corpus()
+    
+    # # Using Gensim Stopwords
+    # cleaner.tokenize_corpus()
+    # word_count = cleaner.wc_whole_corpus()
+    # cleaner.plot_wc(word_count, filepath='media/tf_whole_corpus.png')
+
+    # Using custom Stopwords
+    cleaner.tokenize_corpus(custom_stopwords=True)
+    word_count = cleaner.wc_whole_corpus()
+    cleaner.plot_wc(word_count, filepath='media/tf_custom_sw.png')
+
     cleaner.create_tdf()
-    cleaner.print_tdf()
+    # cleaner.print_tdf()
     lda = cleaner.create_lda_model()
     cleaner.print_top_words(lda)
+    cleaner.print_perplexity_coherence(lda)
