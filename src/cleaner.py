@@ -104,9 +104,12 @@ class Cleaner(object):
         result = []
         # print(f'from text in preprocess: {text}')
         if custom_stopwords:
-            stopwords = STOPWORDS.union(set(["googl", "appl", "rt", "twitter", "http", "microsoft", "la", "el", "en"]))
+            stopwords = STOPWORDS.copy()
+            stopwords = set(stopwords)
+            stopwords.update(["googl", "appl", "rt", "twitter", "http", "microsoft", "la", "el", "en"])
+            # print(f'Stop Words:\n{stopwords}')
         else:
-            stopwords = STOPWORDS
+            stopwords = STOPWORDS.copy()
 
         for token in gensim.utils.simple_preprocess(text, min_len=min_len, max_len=max_len):
             if token not in stopwords:
