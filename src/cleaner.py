@@ -17,6 +17,10 @@ from nltk.stem import WordNetLemmatizer, SnowballStemmer
 from nltk.stem.porter import *
 import nltk
 
+# Plotting tools
+import pyLDAvis
+import pyLDAvis.gensim  # don't skip this
+
 
 
 class Cleaner(object):
@@ -25,6 +29,8 @@ class Cleaner(object):
         self.corpus = corpus
         self.tdf = None
         self.id2word = None
+        self.doc_dist = []
+        self.doc_loads = []
 
 
     def create_corpus(self, corpus):
@@ -50,7 +56,7 @@ class Cleaner(object):
 
 
     def create_lda_model(self, num_topics=4, passes=5, workers=2):
-        return gensim.models.LdaMulticore(self.tdf, num_topics=num_topics, id2word=self.id2word, passes=passes, workers=passes)
+        return gensim.models.LdaMulticore(self.tdf, num_topics=num_topics, per_word_topics=True, id2word=self.id2word, passes=passes, workers=passes)
 
     
     def print_top_words(self, lda_model,):
@@ -87,6 +93,33 @@ class Cleaner(object):
         plt.savefig(filepath)
 
 
+    def document_topic_distribution(self, lda_model):
+        '''
+        Returns a list of how much a document loads onto each latent topic
+        e.g. - [0.5, 0.2, 0.9, 0.4]
+        '''
+        doc_tops = lda_model.get_document_topics(self.tdf)
+        for doc_top in doc_tops:
+            self.doc_dist.append([tup[1] for tup in doc_top])
+            self.doc_loads.append([tup[0] for tup in doc_top])
+
+
+    def determine_doc_topic(self, full_doc_list, doc_ind):
+        topic_of_doc = []
+        for doc in self.doc_dist:
+            topic_of_doc.append(np.argmax(doc))
+
+        print(f'document:\n{full_doc_list[doc_ind]}')
+        print(f'Is apart of latent topic {topic_of_doc[doc_ind]} with a load value of {self.doc_dist[doc_ind][topic_of_doc[doc_ind]]}')
+
+
+    def make_pyLDAvis(self, model):
+        # Visualize the topics
+        # pyLDAvis.enable_notebook()
+        vis = pyLDAvis.gensim.prepare(model, self.tdf, self.id2word, mds='mmds')
+        pyLDAvis.save_html(vis, 'media/LDA_4_topics.html')
+
+
     '''
     Protected Methods (don't use these methods in main.py)
     '''
@@ -102,12 +135,10 @@ class Cleaner(object):
 
     def _preprocess(self, text,  min_len=2, max_len=240, custom_stopwords=False):
         result = []
-        # print(f'from text in preprocess: {text}')
         if custom_stopwords:
             stopwords = STOPWORDS.copy()
             stopwords = set(stopwords)
-            stopwords.update(["googl", "appl", "rt", "twitter", "http", "microsoft", "la", "el", "en"])
-            # print(f'Stop Words:\n{stopwords}')
+            stopwords.update(["google", "apple", "que", "es", "rt", "twitter", "http", "microsoft", "la", "el", "en"])
         else:
             stopwords = STOPWORDS.copy()
 

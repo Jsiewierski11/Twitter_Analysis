@@ -1,3 +1,5 @@
+# Sklearn
+from sklearn.feature_extraction import text
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.metrics import adjusted_rand_score
@@ -6,14 +8,20 @@ from sklearn.metrics import adjusted_rand_score
 class Kmeans_Operator(object):
 
     def __init__(self, n=4):
+        self.corpus = None
         self.vectorizer = None
         self.X = None
         self.n = n
 
 
-    def set_vec_doc_mat(self, documents):
-        self.vectorizer = TfidfVectorizer(stop_words='english')
-        X = self.vectorizer.fit_transform(documents)
+    def set_vec_doc_mat(self, documents, remove_stopwords=False):
+        self.corpus = documents
+        if remove_stopwords:
+            stop_words = text.ENGLISH_STOP_WORDS.union(["google", "apple", "que", "es", "rt", "twitter", "http", "microsoft", "la", "el", "en"])
+        else:
+            stop_words = text.ENGLISH_STOP_WORDS
+        self.vectorizer = TfidfVectorizer(stop_words=stop_words)
+        X = self.vectorizer.fit_transform(self.corpus)
         self.X = X.toarray()
 
     
@@ -27,7 +35,7 @@ class Kmeans_Operator(object):
         print("Top terms per cluster:")
         order_centroids = model.cluster_centers_.argsort()[:, ::-1]
         terms = self.vectorizer.get_feature_names()
-        for i in range(self.n):
+        for i in range(self.n   ):
             print("Cluster %d:" % i),
             for ind in order_centroids[i, :10]:
                 print(' %s' % terms[ind]),
