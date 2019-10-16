@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from src.cleaner import Cleaner
 from src.kmeans_operator import Kmeans_Operator as KMO
+from src.visualizer import Visualizer
 
 def get_sentiment_corpus(df):
     pos_df = df[df['Sentiment'] == 'positive']
@@ -105,10 +106,18 @@ if __name__ == '__main__':
     twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
     
     corpus = twitter['TweetText'].to_numpy()
-    pos_corpus, neg_corpus, neutral_corpus, irr_corpus = get_sentiment_corpus(twitter)
+    # pos_corpus, neg_corpus, neutral_corpus, irr_corpus = get_sentiment_corpus(twitter)
 
     # run_all_models(corpus, pos_corpus, neg_corpus, neutral_corpus, irr_corpus)
-    cleaner, lda_model = run_lda(corpus, num_topics=10, custom_stopwords=True, filepath='media/tf_custom_sw.png', make_vis=True)
+    # cleaner, lda_model = run_lda(corpus, num_topics=13, custom_stopwords=True, filepath='media/tf_custom_sw.png', make_vis=True)
+    # cleaner.plot_coherence()
 
-    cleaner.document_topic_distribution(lda_model)
-    cleaner.determine_doc_topic(corpus, 50)
+    cleaner = Cleaner(corpus)
+    cleaner.tokenize_corpus(custom_stopwords=True)
+    
+    viz = Visualizer()
+    word_count = cleaner.wc_whole_corpus()
+    viz.plot_wc(word_count, n=20, filepath='media/tf_withviz.png')
+
+    # cleaner.document_topic_distribution(lda_model)
+    # cleaner.determine_doc_topic(corpus, 50)

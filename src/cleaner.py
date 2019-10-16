@@ -27,7 +27,7 @@ class Cleaner(object):
     
     def __init__(self, corpus=None):
         self.corpus = corpus
-        self.tdf = None
+        self.bow = None
         self.id2word = None
         self.doc_dist = []
         self.doc_loads = []
@@ -47,16 +47,16 @@ class Cleaner(object):
         #create corpus
         texts = self.corpus
         #Term Document Frequency
-        self.tdf = [self.id2word.doc2bow(text) for text in texts]
+        self.bow = [self.id2word.doc2bow(text) for text in texts]
 
 
     def print_tdf(self):
         # Human readable format of corpus (term-frequency)
-        print([[(self.id2word[id], freq) for id, freq in cp] for cp in self.tdf])
+        print([[(self.id2word[id], freq) for id, freq in cp] for cp in self.bow])
 
 
     def create_lda_model(self, num_topics=4, passes=5, workers=2):
-        return gensim.models.LdaMulticore(self.tdf, num_topics=num_topics, per_word_topics=True, id2word=self.id2word, passes=passes, workers=passes)
+        return gensim.models.LdaMulticore(self.bow, num_topics=num_topics, per_word_topics=True, id2word=self.id2word, passes=passes, workers=passes)
 
     
     def print_top_words(self, lda_model,):
@@ -66,7 +66,7 @@ class Cleaner(object):
 
     def print_perplexity_coherence(self, lda_model):
         # Compute Perplexity
-        print('\nPerplexity: ', lda_model.log_perplexity(self.tdf))  # a measure of how good the model is. lower the better.
+        print('\nPerplexity: ', lda_model.log_perplexity(self.bow))  # a measure of how good the model is. lower the better.
         # Compute Coherence Score
         coherence_model_lda = CoherenceModel(model=lda_model, texts=self.corpus, dictionary=self.id2word, coherence='c_v')
         coherence_lda = coherence_model_lda.get_coherence()
@@ -91,6 +91,7 @@ class Cleaner(object):
         plt.ylabel('Term Frequency', fontsize=14)
         plt.xticks(rotation=90)
         plt.savefig(filepath)
+        plt.close()
 
 
     def document_topic_distribution(self, lda_model):
@@ -98,7 +99,7 @@ class Cleaner(object):
         Returns a list of how much a document loads onto each latent topic
         e.g. - [0.5, 0.2, 0.9, 0.4]
         '''
-        doc_tops = lda_model.get_document_topics(self.tdf)
+        doc_tops = lda_model.get_document_topics(self.bow)
         for doc_top in doc_tops:
             self.doc_dist.append([tup[1] for tup in doc_top])
             self.doc_loads.append([tup[0] for tup in doc_top])
@@ -117,9 +118,71 @@ class Cleaner(object):
         '''
         Saves a pyLDAvis visualization to the media file
         '''
-        vis = pyLDAvis.gensim.prepare(model, self.tdf, self.id2word, mds='mmds')
-        pyLDAvis.save_html(vis, 'media/LDA_10_topics.html')
+        vis = pyLDAvis.gensim.prepare(model, self.bow, self.id2word, mds='mmds')
+        pyLDAvis.save_html(vis, 'media/LDA_8_topics.html')
 
+
+    def compute_coherence_values(self, texts, start=2, stop=30, step=3):
+        """
+        Compute c_v coherence for various number of topics
+        Parameters:
+        ----------
+        dictionary : Gensim dictionary
+        corpus : Gensim corpus
+        texts : List of input texts
+        limit : Max num of topics
+        Returns:
+        -------
+        model_list : List of LDA topic models
+        coherence_values : Coherence values corresponding to the LDA model with
+                        respective number of topics
+        """
+        coherence_values = []
+        u_mass_vals = []
+        model_list = []
+
+        id2word = self.id2word
+        # corpus = self.corpus
+
+        for num_topics in range(start, stop, step):
+            print('Calculating {}-topic model'.format(num_topics))
+            model = gensim.models.LdaMulticore(self.bow, num_topics=4, id2word=id2word, passes=5, workers=2)
+
+            model_list.append((num_topics, model))
+            coherencemodel = CoherenceModel(model=model,
+                                            texts=texts,
+                                            corpus=self.bow,
+                                            dictionary=id2word,
+                                            coherence='c_v')
+            coherence_values.append(coherencemodel.get_coherence())
+
+            u_mass = CoherenceModel(model=model,
+                                            texts=texts,
+                                            corpus=self.bow,
+                                            dictionary=id2word,
+                                            coherence='u_mass')
+            u_mass_vals.append(u_mass.get_coherence())
+
+        return model_list, coherence_values, u_mass_vals
+    
+
+    def plot_coherence(self, start=2, stop=30, step=3):
+        stop += 1
+        (model_list, coherence_values, u_mass_vals) = self.compute_coherence_values(texts=self.corpus,
+                                                                       start=start,
+                                                                       stop=stop,
+                                                                       step=step)
+
+        # Show graph
+        x = range(start, stop, step)
+        plt.plot(x, coherence_values, color='blue')
+        plt.plot(x, u_mass_vals, color='red')
+        plt.xlabel("Number of Topics", fontsize=14)
+        plt.ylabel("Coherence score", fontsize=14)
+        plt.title("Coherence score using c_v and u_mass Metrics vs Number of Topics")
+        plt.legend((coherence_values, u_mass_vals), ('c_v', 'u_mass'))
+        plt.savefig('media/coherence.png')
+        plt.close()
 
     '''
     Protected Methods (don't use these methods in main.py)
@@ -140,7 +203,21 @@ class Cleaner(object):
         if custom_stopwords:
             stopwords = STOPWORDS.copy()
             stopwords = set(stopwords)
-            stopwords.update(["google", "apple", "que", "es", "rt", "twitter", "http", "microsoft", "la", "el", "en"])
+            spanish = self._get_spanish_stopwords()
+            stopwords.update(spanish)
+            stopwords.update(["google", 
+                              "apple", 
+                              "rt", 
+                              "twitter", 
+                              "http", 
+                              "microsoft", 
+                              "android",
+                              "iphone",
+                              "phone",
+                              "use",
+                              "app",
+                              "like",
+                              "new"])
         else:
             stopwords = STOPWORDS.copy()
 
@@ -148,5 +225,10 @@ class Cleaner(object):
             if token not in stopwords:
                 result.append(self._lemmatize_stemming(token))
         return result
+
+
+    def _get_spanish_stopwords(self):
+        x = [line.rstrip() for line in open('src/stop_words/spanish.txt')]
+        return set(x)
     
     
