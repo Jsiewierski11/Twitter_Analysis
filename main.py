@@ -114,10 +114,14 @@ if __name__ == '__main__':
 
     cleaner = Cleaner(corpus)
     cleaner.tokenize_corpus(custom_stopwords=True)
+    cleaner.create_tdf()
+    model_list, coherence_values, u_mass_vals = cleaner.compute_coherence_values()
+
     
     viz = Visualizer()
-    word_count = cleaner.wc_whole_corpus()
-    viz.plot_wc(word_count, n=20, filepath='media/tf_withviz.png')
+    # word_count = cleaner.wc_whole_corpus()
+    # viz.plot_wc(word_count, n=20, filepath='media/tf_withviz.png')
+    viz.plot_coherence(model_list, coherence_values, u_mass_vals)
 
     # cleaner.document_topic_distribution(lda_model)
     # cleaner.determine_doc_topic(corpus, 50)

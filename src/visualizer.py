@@ -19,22 +19,22 @@ class Visualizer(object):
         pass
 
 
-    def plot_coherence(self, start=2, stop=30, step=3):
-        stop += 1
-        (model_list, coherence_values, u_mass_vals) = self.compute_coherence_values(texts=self.corpus,
-                                                                                    start=start,
-                                                                                    stop=stop,
-                                                                                    step=step)
+    def plot_coherence(self, model_list, c_v_vals, u_mass_vals, start=2, stop=30, step=3, filepath='media/coherence_viz.png'):
+        # stop += 1
+        # (model_list, c_v_vals, u_mass_vals) = self.compute_coherence_values(texts=self.corpus,
+        #                                                                             start=start,
+        #                                                                             stop=stop,
+        #                                                                             step=step)
 
         # Show graph
         x = range(start, stop, step)
-        plt.plot(x, coherence_values, color='blue')
+        plt.plot(x, c_v_vals, color='blue')
         plt.plot(x, u_mass_vals, color='red')
         plt.xlabel("Number of Topics", fontsize=14)
         plt.ylabel("Coherence score", fontsize=14)
         plt.title("Coherence score using c_v and u_mass Metrics vs Number of Topics")
-        plt.legend((coherence_values, u_mass_vals), ('c_v', 'u_mass'))
-        plt.savefig('media/coherence.png')
+        plt.legend((c_v_vals, u_mass_vals), ('c_v', 'u_mass'))
+        plt.savefig(filepath)
         plt.close()
 
 
