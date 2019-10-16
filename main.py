@@ -16,7 +16,7 @@ def get_sentiment_corpus(df):
     return pos_corpus, neg_corpus, neutral_corpus, irr_corpus
 
 
-def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath=None, make_vis=False):
+def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath=None):
     '''
     Running LDA with Gensim
     '''
@@ -39,13 +39,11 @@ def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath=None, make_vi
         else:
             cleaner.plot_wc(word_count, filepath=filepath)
 
-    cleaner.create_tdf()
+    cleaner.create_bow()
     # cleaner.print_tdf()
     lda = cleaner.create_lda_model(num_topics=num_topics)
     cleaner.print_top_words(lda)
     cleaner.print_perplexity_coherence(lda) 
-    if make_vis:
-        cleaner.make_pyLDAvis(lda) 
 
     return cleaner, lda
 
@@ -114,14 +112,20 @@ if __name__ == '__main__':
 
     cleaner = Cleaner(corpus)
     cleaner.tokenize_corpus(custom_stopwords=True)
-    cleaner.create_tdf()
-    model_list, coherence_values, u_mass_vals = cleaner.compute_coherence_values()
-
+    cleaner.create_bow()
+    lda = cleaner.create_lda_model(num_topics=12)
     
+    
+    # Testing Visualizer functions
     viz = Visualizer()
+
     # word_count = cleaner.wc_whole_corpus()
     # viz.plot_wc(word_count, n=20, filepath='media/tf_withviz.png')
-    viz.plot_coherence(model_list, coherence_values, u_mass_vals)
+
+    # model_list, coherence_values, u_mass_vals = cleaner.compute_coherence_values()
+    # viz.plot_coherence(model_list, coherence_values, u_mass_vals)
+
+    viz.make_pyLDAvis(lda, cleaner.bow, cleaner.id2word, filepath='media/LDA_12_topics.html')
 
     # cleaner.document_topic_distribution(lda_model)
     # cleaner.determine_doc_topic(corpus, 50)

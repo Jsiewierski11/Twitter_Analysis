@@ -41,7 +41,7 @@ class Cleaner(object):
         self.corpus = [self._preprocess(x, custom_stopwords=custom_stopwords) for x in self.corpus]
 
     
-    def create_tdf(self):
+    def create_bow(self):
        #create dictionary
         self.id2word = gensim.corpora.Dictionary(self.corpus)
         #create corpus
@@ -59,7 +59,7 @@ class Cleaner(object):
         return gensim.models.LdaMulticore(self.bow, num_topics=num_topics, per_word_topics=True, id2word=self.id2word, passes=passes, workers=passes)
 
     
-    def print_top_words(self, lda_model,):
+    def print_top_words(self, lda_model):
         # Print the Keyword in the 10 topics
         pprint(lda_model.print_topics())
 
@@ -80,19 +80,6 @@ class Cleaner(object):
         unique, counts = np.unique(y, return_counts=True)
         return dict(zip(unique, counts))
 
-    
-    # def plot_wc(self, wc_dict, n=20, filepath='media/tf.png'):
-    #     wc = self._sort_wc(wc_dict)
-    #     wc = wc[:n]
-    #     fig, ax = plt.subplots(figsize=(15, 10))
-    #     plt.bar(wc.index, wc[0], color='g')
-    #     plt.title("Top 10 Most Frequent Words in the Corpus", fontsize=14)
-    #     plt.xlabel('Words', fontsize=14)
-    #     plt.ylabel('Term Frequency', fontsize=14)
-    #     plt.xticks(rotation=90)
-    #     plt.savefig(filepath)
-    #     plt.close()
-
 
     def document_topic_distribution(self, lda_model):
         '''
@@ -112,14 +99,6 @@ class Cleaner(object):
 
         print(f'document:\n{full_doc_list[doc_ind]}')
         print(f'Is apart of latent topic {topic_of_doc[doc_ind]} with a load value of {self.doc_dist[doc_ind][topic_of_doc[doc_ind]]}')
-
-
-    def make_pyLDAvis(self, model):
-        '''
-        Saves a pyLDAvis visualization to the media file
-        '''
-        vis = pyLDAvis.gensim.prepare(model, self.bow, self.id2word, mds='mmds')
-        pyLDAvis.save_html(vis, 'media/LDA_8_topics.html')
 
 
     def compute_coherence_values(self, start=2, stop=30, step=3):
@@ -165,24 +144,6 @@ class Cleaner(object):
 
         return model_list, coherence_values, u_mass_vals
     
-
-    # def plot_coherence(self, start=2, stop=30, step=3):
-    #     stop += 1
-    #     (model_list, coherence_values, u_mass_vals) = self.compute_coherence_values(texts=self.corpus,
-    #                                                                    start=start,
-    #                                                                    stop=stop,
-    #                                                                    step=step)
-
-    #     # Show graph
-    #     x = range(start, stop, step)
-    #     plt.plot(x, coherence_values, color='blue')
-    #     plt.plot(x, u_mass_vals, color='red')
-    #     plt.xlabel("Number of Topics", fontsize=14)
-    #     plt.ylabel("Coherence score", fontsize=14)
-    #     plt.title("Coherence score using c_v and u_mass Metrics vs Number of Topics")
-    #     plt.legend((coherence_values, u_mass_vals), ('c_v', 'u_mass'))
-    #     plt.savefig('media/coherence.png')
-    #     plt.close()
 
     '''
     Protected Methods (don't use these methods in main.py)
