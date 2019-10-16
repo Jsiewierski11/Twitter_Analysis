@@ -15,7 +15,7 @@ def get_sentiment_corpus(df):
     return pos_corpus, neg_corpus, neutral_corpus, irr_corpus
 
 
-def run_lda(corpus, custom_stopwords=False, filepath=None, make_vis=False):
+def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath=None, make_vis=False):
     '''
     Running LDA with Gensim
     '''
@@ -40,7 +40,7 @@ def run_lda(corpus, custom_stopwords=False, filepath=None, make_vis=False):
 
     cleaner.create_tdf()
     # cleaner.print_tdf()
-    lda = cleaner.create_lda_model()
+    lda = cleaner.create_lda_model(num_topics=num_topics)
     cleaner.print_top_words(lda)
     cleaner.print_perplexity_coherence(lda) 
     if make_vis:
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     pos_corpus, neg_corpus, neutral_corpus, irr_corpus = get_sentiment_corpus(twitter)
 
     # run_all_models(corpus, pos_corpus, neg_corpus, neutral_corpus, irr_corpus)
-    cleaner, lda_model = run_lda(corpus, custom_stopwords=True, filepath='media/tf_custom_sw.png')
+    cleaner, lda_model = run_lda(corpus, num_topics=10, custom_stopwords=True, filepath='media/tf_custom_sw.png', make_vis=True)
 
     cleaner.document_topic_distribution(lda_model)
     cleaner.determine_doc_topic(corpus, 50)

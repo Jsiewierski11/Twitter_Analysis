@@ -114,15 +114,17 @@ class Cleaner(object):
 
 
     def make_pyLDAvis(self, model):
-        # Visualize the topics
-        # pyLDAvis.enable_notebook()
+        '''
+        Saves a pyLDAvis visualization to the media file
+        '''
         vis = pyLDAvis.gensim.prepare(model, self.tdf, self.id2word, mds='mmds')
-        pyLDAvis.save_html(vis, 'media/LDA_4_topics.html')
+        pyLDAvis.save_html(vis, 'media/LDA_10_topics.html')
 
 
     '''
     Protected Methods (don't use these methods in main.py)
     '''
+    
     def _sort_wc(self, wc_dict):
         wc_df = pd.DataFrame.from_dict(wc_dict, orient='index')
         return wc_df.sort_values(by=0, ascending=False)
