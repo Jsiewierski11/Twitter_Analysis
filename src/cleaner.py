@@ -135,14 +135,14 @@ class Cleaner(object):
                                             coherence='c_v')
             coherence_values.append(coherencemodel.get_coherence())
 
-            u_mass = CoherenceModel(model=model,
-                                            texts=self.corpus,
-                                            corpus=self.bow,
-                                            dictionary=id2word,
-                                            coherence='u_mass')
-            u_mass_vals.append(u_mass.get_coherence())
+            # u_mass = CoherenceModel(model=model,
+            #                                 texts=self.corpus,
+            #                                 corpus=self.bow,
+            #                                 dictionary=id2word,
+            #                                 coherence='u_mass')
+            # u_mass_vals.append(u_mass.get_coherence())
 
-        return model_list, coherence_values, u_mass_vals
+        return model_list, coherence_values#, u_mass_vals
     
 
     '''

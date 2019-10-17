@@ -114,6 +114,39 @@ def run_all_models(corpus, pos_corpus, neg_corpus, neutral_corpus, irr_corpus):
     print('\n\n')  
 
 
+def plot_coherence_on_companies(twitter, viz):
+    # Apple
+    apple_cleaner = Cleaner(apple_corpus)
+    apple_cleaner.tokenize_corpus()
+    apple_cleaner.create_bow()
+    model_list, coherence_values = apple_cleaner.compute_coherence_values()
+    viz.plot_coherence(model_list, coherence_values, filepath='media/apple_coherence2.png', color='grey')
+
+
+    # Google
+    google_cleaner = Cleaner(google_corpus)
+    google_cleaner.tokenize_corpus()
+    google_cleaner.create_bow()
+    model_list, coherence_values = google_cleaner.compute_coherence_values()
+    viz.plot_coherence(model_list, coherence_values, filepath='media/google_coherence2.png', color='orange')
+
+
+    # Microsoft
+    ms_cleaner = Cleaner(ms_corpus)
+    ms_cleaner.tokenize_corpus()
+    ms_cleaner.create_bow()
+    model_list, coherence_values = ms_cleaner.compute_coherence_values()
+    viz.plot_coherence(model_list, coherence_values, filepath='media/microsoft_coherence2.png', color='blue')
+
+
+    # Twiiter
+    twitter_cleaner = Cleaner(twitter_corpus)
+    twitter_cleaner.tokenize_corpus()
+    twitter_cleaner.create_bow()
+    model_list, coherence_values = twitter_cleaner.compute_coherence_values()
+    viz.plot_coherence(model_list, coherence_values, filepath='media/twitter_coherence2.png', color='cyan')
+
+
 if __name__ == '__main__':
     twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
     viz = Visualizer()
@@ -124,25 +157,40 @@ if __name__ == '__main__':
     Segmenting df by Topics 'Apple, Google, Microsoft, Twitter'
     '''
     
-    # apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
+    apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
 
-    # print('Latent Topics for Tweets about Apple')
-    # run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple.png', make_vis=True, filepath_lda='media/apple.html')
-    # print('\n\n')
 
-    # print('Latent Topics for Tweets about Google')
-    # run_lda(google_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_google.png', make_vis=True, filepath_lda='media/google.html')
-    # print('\n\n')
+    '''
+    Getting Coherence plots of all the Topics to determine number of clusters to use
+    '''
+    # plot_coherence_on_companies(twitter, viz)
+    
 
-    # print('Latent Topics for Tweets about Microsoft')
-    # run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft.png', make_vis=True, filepath_lda='media/microsoft.html')
-    # print('\n\n')
 
-    # print('Latent Topics for Tweets about Twitter')
-    # run_lda(twitter_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_twitter.png', make_vis=True, filepath_lda='media/twitter.html')
-    # print('\n\n')
+    '''
+    Running LDA on all the Topics
+    '''
+    print('Latent Topics for Tweets about Apple')
+    run_lda(apple_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_apple.png', make_vis=True, filepath_lda='media/apple.html')
+    print('\n\n')
+
+    print('Latent Topics for Tweets about Google')
+    run_lda(google_corpus, num_topics=8, custom_stopwords=True, filepath_wc='media/tf_google.png', make_vis=True, filepath_lda='media/google.html')
+    print('\n\n')
+
+    print('Latent Topics for Tweets about Microsoft')
+    run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft.png', make_vis=True, filepath_lda='media/microsoft.html')
+    print('\n\n')
+
+    print('Latent Topics for Tweets about Twitter')
+    run_lda(twitter_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_twitter.png', make_vis=True, filepath_lda='media/twitter.html')
+    print('\n\n')
     
     
+    
+    '''
+    Segmenting Based off of Sentiment
+    '''
     # corpus = twitter['TweetText'].to_numpy()
     # pos_corpus, neg_corpus, neutral_corpus, irr_corpus = get_sentiment_corpus(twitter)
 
@@ -157,9 +205,9 @@ if __name__ == '__main__':
     
     
     # Testing Visualizer functions
-    viz.plot_sentiments_pie()
+    # viz.plot_sentiments_pie()
     # viz.plot_categories_bar()
-    viz.plot_categories_pie()
+    # viz.plot_categories_pie()
 
     # word_count = cleaner.wc_whole_corpus()
     # viz.plot_wc(word_count, n=20, filepath='media/tf_withviz.png')
