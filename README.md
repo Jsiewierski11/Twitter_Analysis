@@ -9,8 +9,8 @@ My goal for the project was to be able to identify clusters within the entire co
 - K-Means Clustering
     - Hard Clustering
 
-
-# Notes about the data
+# EDA
+## Notes about the data
 ![picture of the dataframe of the csv file](media/twitter_df.png)
 - 5113 total documents
     - Sentiment
@@ -47,12 +47,17 @@ My goal for the project was to be able to identify clusters within the entire co
     - For the smaller corpus's of tweets about the four companies I plotted coherence before peforming topic modeling.
     - Taken from the paper 'Full-Text or Abstract?Examining Topic Coherence Scores Using LatentDirichlet Allocation' regarding the c_v metric.
     > c_v is  based  on four  parts:  (i)  segmentation  of  the  data  into  word  pairs,  (ii)calculation of word or word pair probabilities, (iii) calculation of a confirmation measure that quantifies how strongly a wordset supports another word set, and finally (iv) aggregation of individual  confirmation  measures  into  an  overall  coherence score.
+
+![coherence](media/apple_coherence3.png)
+![coherence](media/google_coherence3.png)
+![coherence](media/microsoft_coherence3.png)
+![coherence](media/twitter_coherence3.png)
 9. Number of Clusters decided.
     - Entire dataset: 12
-    - Apple: 3
-    - Google: 8
+    - Apple: 5
+    - Google: 3
     - Microsoft: 5
-    - Twitter: 3
+    - Twitter: 5
 9. Relevancy metric
     - small values of λ (near 0) highlight potentially rare, but exclusive terms for the selected topic, and large values of λ (near 1)
     - value of 0.5 seemed to be giving me the best result for clustering on the entire corpus
@@ -232,6 +237,8 @@ Perplexity:  -7.953622857645727
 Coherence Score:  0.4976158318513984
 ```
 
+Twandroid is a French twitter acount that talks about androids
+
 ### Microsoft
 ```
 Latent Topics for Tweets about Microsoft
@@ -284,8 +291,8 @@ Coherence Score:  0.5779113584573353
 
 
 ## What I learned
-- LDA seemed to perform better when the data was segmented. It appears that having text that is generally talking about one topic, or in this case one company.
-- Since LDA is probabilistic model it will usually have high variance and low bias, LDA will perform much better when given larger amounts of data.
+- LDA seemed to perform better when the data was segmented. It appears that having text that is talking about one topic, or in this case one company. Will produce clearer latent topics.
+- Since LDA is a probabilistic model it will usually have high variance and low bias, LDA will perform much better when given larger amounts of data.
     - Although in this case having coherent topics seemed to matter more than having a slightly larger dataset.
 - Topic modeling is generally not very effective on shorter documents (i.e. Tweets).
 

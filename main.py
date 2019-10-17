@@ -120,7 +120,7 @@ def plot_coherence_on_companies(twitter, viz):
     apple_cleaner.tokenize_corpus()
     apple_cleaner.create_bow()
     model_list, coherence_values = apple_cleaner.compute_coherence_values()
-    viz.plot_coherence(model_list, coherence_values, filepath='media/apple_coherence2.png', color='grey')
+    viz.plot_coherence(model_list, coherence_values, filepath='media/apple_coherence3.png', color='grey', title='Apple')
 
 
     # Google
@@ -128,7 +128,7 @@ def plot_coherence_on_companies(twitter, viz):
     google_cleaner.tokenize_corpus()
     google_cleaner.create_bow()
     model_list, coherence_values = google_cleaner.compute_coherence_values()
-    viz.plot_coherence(model_list, coherence_values, filepath='media/google_coherence2.png', color='orange')
+    viz.plot_coherence(model_list, coherence_values, filepath='media/google_coherence3.png', color='orange', title='Google')
 
 
     # Microsoft
@@ -136,7 +136,7 @@ def plot_coherence_on_companies(twitter, viz):
     ms_cleaner.tokenize_corpus()
     ms_cleaner.create_bow()
     model_list, coherence_values = ms_cleaner.compute_coherence_values()
-    viz.plot_coherence(model_list, coherence_values, filepath='media/microsoft_coherence2.png', color='blue')
+    viz.plot_coherence(model_list, coherence_values, filepath='media/microsoft_coherence3.png', color='blue', title='Microsoft')
 
 
     # Twiiter
@@ -144,7 +144,7 @@ def plot_coherence_on_companies(twitter, viz):
     twitter_cleaner.tokenize_corpus()
     twitter_cleaner.create_bow()
     model_list, coherence_values = twitter_cleaner.compute_coherence_values()
-    viz.plot_coherence(model_list, coherence_values, filepath='media/twitter_coherence2.png', color='cyan')
+    viz.plot_coherence(model_list, coherence_values, filepath='media/twitter_coherence3.png', color='cyan', title='Twitter')
 
 
 if __name__ == '__main__':
