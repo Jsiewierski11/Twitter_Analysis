@@ -21,6 +21,8 @@
         - 1364 documents labeled as having a topic of Microsoft
         - 1290 documents labeled as having a topic of Twitter
 
+![Pie Chart about Data](./media/categories_pie.png)
+
 
 ### Notes about NLP process
 - Focused on LDA using gensim

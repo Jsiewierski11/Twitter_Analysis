@@ -101,23 +101,25 @@ def run_all_models(corpus, pos_corpus, neg_corpus, neutral_corpus, irr_corpus):
 
 
 if __name__ == '__main__':
-    twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
+    # twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
     
-    corpus = twitter['TweetText'].to_numpy()
+    # corpus = twitter['TweetText'].to_numpy()
     # pos_corpus, neg_corpus, neutral_corpus, irr_corpus = get_sentiment_corpus(twitter)
 
     # run_all_models(corpus, pos_corpus, neg_corpus, neutral_corpus, irr_corpus)
     # cleaner, lda_model = run_lda(corpus, num_topics=13, custom_stopwords=True, filepath='media/tf_custom_sw.png', make_vis=True)
     # cleaner.plot_coherence()
 
-    cleaner = Cleaner(corpus)
-    cleaner.tokenize_corpus(custom_stopwords=True)
-    cleaner.create_bow()
-    lda = cleaner.create_lda_model(num_topics=12)
+    # cleaner = Cleaner(corpus)
+    # cleaner.tokenize_corpus(custom_stopwords=True)
+    # cleaner.create_bow()
+    # lda = cleaner.create_lda_model(num_topics=12)
     
     
     # Testing Visualizer functions
     viz = Visualizer()
+    # viz.plot_categories_bar()
+    viz.plot_categories_pie()
 
     # word_count = cleaner.wc_whole_corpus()
     # viz.plot_wc(word_count, n=20, filepath='media/tf_withviz.png')
@@ -125,7 +127,7 @@ if __name__ == '__main__':
     # model_list, coherence_values, u_mass_vals = cleaner.compute_coherence_values()
     # viz.plot_coherence(model_list, coherence_values, u_mass_vals)
 
-    viz.make_pyLDAvis(lda, cleaner.bow, cleaner.id2word, filepath='media/LDA_12_topics.html')
+    # viz.make_pyLDAvis(lda, cleaner.bow, cleaner.id2word, filepath='media/LDA_12_topics.html')
 
     # cleaner.document_topic_distribution(lda_model)
     # cleaner.determine_doc_topic(corpus, 50)

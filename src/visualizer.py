@@ -20,11 +20,6 @@ class Visualizer(object):
 
 
     def plot_coherence(self, model_list, c_v_vals, u_mass_vals, start=2, stop=30, step=3, filepath='media/coherence_viz.png'):
-        # stop += 1
-        # (model_list, c_v_vals, u_mass_vals) = self.compute_coherence_values(texts=self.corpus,
-        #                                                                             start=start,
-        #                                                                             stop=stop,
-        #                                                                             step=step)
 
         # Show graph
         x = range(start, stop, step)
@@ -57,6 +52,52 @@ class Visualizer(object):
         '''
         vis = pyLDAvis.gensim.prepare(model, bow, id2word, mds='mmds')
         pyLDAvis.save_html(vis, filepath)
+
+
+    def plot_categories_bar(self):
+        '''
+            - 1142 documents labeled as having a topic of Apple
+            - 1317 documents labeled as having a topic of Google
+            - 1364 documents labeled as having a topic of Microsoft
+            - 1290 documents labeled as having a topic of Twitter
+        '''
+        topic_values = [1142, 1317, 1364, 1290]
+        topic_labels = ['Apple', 'Google', 'Microsoft', 'Twitter']
+
+        fig, ax = plt.subplots(figsize=(10, 10))
+        plt.bar(topic_labels, topic_values, color=['grey', 'yellow', 'blue', 'cyan'])
+        plt.title('Number of Tweets in Each Predefined Topic', fontsize=14)
+        plt.xlabel('Predefined Topics', fontsize=14)
+        plt.ylabel('Number of Tweets', fontsize=14)
+        plt.savefig('media/categories_bar.png')
+
+
+    def plot_categories_pie(self):
+        '''
+            - 1142 documents labeled as having a topic of Apple
+            - 1317 documents labeled as having a topic of Google
+            - 1364 documents labeled as having a topic of Microsoft
+            - 1290 documents labeled as having a topic of Twitter
+        '''
+        topic_values = [1142, 1317, 1364, 1290]
+        topic_labels = ['1142 Tweets', '1317 Tweets', '1364 Tweets', '1290 Tweets']
+        legend_labels = ['Apple', 'Google', 'Microsoft', 'Twitter']
+
+        fig, ax = plt.subplots(figsize=(7, 4))
+        
+        wedges, texts, autotexts = plt.pie(topic_values, \
+                                           labels=topic_labels, \
+                                           colors=['grey', 'yellow', 'blue', 'cyan'], \
+                                           autopct='%1.1f%%', \
+                                           textprops=dict(color="black"))
+        plt.legend(wedges, legend_labels,
+                   title="Topics",
+                   loc="center left",
+                   bbox_to_anchor=(1, 0, 0.5, 1))
+        
+        plt.title('Number of Tweets in Each Predefined Topic', fontsize=14)
+        plt.savefig('media/categories_pie.png')
+        # plt.show()
 
 
     '''
