@@ -171,19 +171,19 @@ if __name__ == '__main__':
     Running LDA on all the Topics
     '''
     print('Latent Topics for Tweets about Apple')
-    run_lda(apple_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_apple.png', make_vis=True, filepath_lda='media/apple.html')
+    run_lda(apple_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_apple_mystop.png', make_vis=True, filepath_lda='media/apple_mystop.html')
     print('\n\n')
 
     print('Latent Topics for Tweets about Google')
-    run_lda(google_corpus, num_topics=8, custom_stopwords=True, filepath_wc='media/tf_google.png', make_vis=True, filepath_lda='media/google.html')
+    run_lda(google_corpus, num_topics=8, custom_stopwords=True, filepath_wc='media/tf_google_mystop.png', make_vis=True, filepath_lda='media/google_mystop.html')
     print('\n\n')
 
     print('Latent Topics for Tweets about Microsoft')
-    run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft.png', make_vis=True, filepath_lda='media/microsoft.html')
+    run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft_mystop.png', make_vis=True, filepath_lda='media/microsoft_mystop.html')
     print('\n\n')
 
     print('Latent Topics for Tweets about Twitter')
-    run_lda(twitter_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_twitter.png', make_vis=True, filepath_lda='media/twitter.html')
+    run_lda(twitter_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_twitter_mystop.png', make_vis=True, filepath_lda='media/twitter_mystop.html')
     print('\n\n')
     
     

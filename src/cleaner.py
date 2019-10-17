@@ -165,10 +165,10 @@ class Cleaner(object):
             stopwords = STOPWORDS.copy()
             stopwords = set(stopwords)
             spanish = self._get_spanish_stopwords()
-            # custom = self._get_custom_stopwords()
+            custom = self._get_custom_stopwords()
             stopwords.update(spanish)
-            stopwords.update(['http', 'rt'])
-            # stopwords.update(custom)
+            # stopwords.update(['http', 'fuck', 'rt'])
+            stopwords.update(custom)
         else:
             stopwords = STOPWORDS.copy()
 

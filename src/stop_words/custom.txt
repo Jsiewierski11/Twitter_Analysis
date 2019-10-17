@@ -11,3 +11,6 @@ use
 app
 like
 new
+fuck
+follow
+ff
