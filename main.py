@@ -16,34 +16,48 @@ def get_sentiment_corpus(df):
     return pos_corpus, neg_corpus, neutral_corpus, irr_corpus
 
 
-def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath=None):
+def get_topics_corpus(df):
+    apple_df = df[df['Topic'] == 'apple']
+    google_df = df[df['Topic'] == 'google']
+    ms_df = df[df['Topic'] == 'microsoft']
+    twitter_df = df[df['Topic'] == 'twitter']
+    apple_corpus = apple_df['TweetText'].to_numpy()
+    google_corpus = google_df['TweetText'].to_numpy()
+    ms_corpus = ms_df['TweetText'].to_numpy()
+    twitter_corpus = twitter_df['TweetText'].to_numpy()
+    return apple_corpus, google_corpus, ms_corpus, twitter_corpus
+
+
+def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath_wc=None, make_vis=True, filepath_lda=None):
     '''
     Running LDA with Gensim
     '''
     cleaner = Cleaner(corpus)
+    viz = Visualizer()
 
     if custom_stopwords:
         # Using custom Stopwords
         cleaner.tokenize_corpus(custom_stopwords=True)
         word_count = cleaner.wc_whole_corpus()
-        if filepath is None:
-            cleaner.plot_wc(word_count, filepath='media/tf_custom_sw.png')
+        if filepath_wc is None:
+            viz.plot_wc(word_count, filepath='media/tf_custom_sw.png')
         else:
-            cleaner.plot_wc(word_count, filepath=filepath)
+            viz.plot_wc(word_count, filepath=filepath_wc)
     else:
         # Using Gensim Stopwords
         cleaner.tokenize_corpus()
         word_count = cleaner.wc_whole_corpus()
-        if filepath is None:
-            cleaner.plot_wc(word_count, filepath='media/tf_whole_corpus.png')
+        if filepath_wc is None:
+            viz.plot_wc(word_count, filepath='media/tf_whole_corpus.png')
         else:
-            cleaner.plot_wc(word_count, filepath=filepath)
+            viz.plot_wc(word_count, filepath=filepath_wc)
 
     cleaner.create_bow()
-    # cleaner.print_tdf()
     lda = cleaner.create_lda_model(num_topics=num_topics)
     cleaner.print_top_words(lda)
-    cleaner.print_perplexity_coherence(lda) 
+    cleaner.print_perplexity_coherence(lda)
+    if make_vis:
+        viz.make_pyLDAvis(lda, cleaner.bow, cleaner.id2word, filepath=filepath_lda)
 
     return cleaner, lda
 
@@ -101,7 +115,33 @@ def run_all_models(corpus, pos_corpus, neg_corpus, neutral_corpus, irr_corpus):
 
 
 if __name__ == '__main__':
-    # twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
+    twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
+    viz = Visualizer()
+
+
+
+    '''
+    Segmenting df by Topics 'Apple, Google, Microsoft, Twitter'
+    '''
+    
+    apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
+
+    print('Latent Topics for Tweets about Apple')
+    run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple.png', make_vis=True, filepath_lda='media/apple.html')
+    print('\n\n')
+
+    print('Latent Topics for Tweets about Google')
+    run_lda(google_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_google.png', make_vis=True, filepath_lda='media/google.html')
+    print('\n\n')
+
+    print('Latent Topics for Tweets about Microsoft')
+    run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft.png', make_vis=True, filepath_lda='media/microsoft.html')
+    print('\n\n')
+
+    print('Latent Topics for Tweets about Twitter')
+    run_lda(twitter_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_twitter.png', make_vis=True, filepath_lda='media/twitter.html')
+    print('\n\n')
+    
     
     # corpus = twitter['TweetText'].to_numpy()
     # pos_corpus, neg_corpus, neutral_corpus, irr_corpus = get_sentiment_corpus(twitter)
@@ -117,9 +157,9 @@ if __name__ == '__main__':
     
     
     # Testing Visualizer functions
-    viz = Visualizer()
+    # viz = Visualizer()
     # viz.plot_categories_bar()
-    viz.plot_categories_pie()
+    # viz.plot_categories_pie()
 
     # word_count = cleaner.wc_whole_corpus()
     # viz.plot_wc(word_count, n=20, filepath='media/tf_withviz.png')
@@ -131,3 +171,6 @@ if __name__ == '__main__':
 
     # cleaner.document_topic_distribution(lda_model)
     # cleaner.determine_doc_topic(corpus, 50)
+
+
+    

@@ -165,20 +165,10 @@ class Cleaner(object):
             stopwords = STOPWORDS.copy()
             stopwords = set(stopwords)
             spanish = self._get_spanish_stopwords()
+            # custom = self._get_custom_stopwords()
             stopwords.update(spanish)
-            stopwords.update(["google", 
-                              "apple", 
-                              "rt", 
-                              "twitter", 
-                              "http", 
-                              "microsoft", 
-                              "android",
-                              "iphone",
-                              "phone",
-                              "use",
-                              "app",
-                              "like",
-                              "new"])
+            stopwords.update(['http', 'rt'])
+            # stopwords.update(custom)
         else:
             stopwords = STOPWORDS.copy()
 
@@ -190,6 +180,11 @@ class Cleaner(object):
 
     def _get_spanish_stopwords(self):
         x = [line.rstrip() for line in open('src/stop_words/spanish.txt')]
+        return set(x)
+
+
+    def _get_custom_stopwords(self):
+        x = [line.rstrip() for line in open('src/stop_words/custom.txt')]
         return set(x)
     
     
