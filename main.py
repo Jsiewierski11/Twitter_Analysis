@@ -124,23 +124,23 @@ if __name__ == '__main__':
     Segmenting df by Topics 'Apple, Google, Microsoft, Twitter'
     '''
     
-    apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
+    # apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
 
-    print('Latent Topics for Tweets about Apple')
-    run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple.png', make_vis=True, filepath_lda='media/apple.html')
-    print('\n\n')
+    # print('Latent Topics for Tweets about Apple')
+    # run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple.png', make_vis=True, filepath_lda='media/apple.html')
+    # print('\n\n')
 
-    print('Latent Topics for Tweets about Google')
-    run_lda(google_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_google.png', make_vis=True, filepath_lda='media/google.html')
-    print('\n\n')
+    # print('Latent Topics for Tweets about Google')
+    # run_lda(google_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_google.png', make_vis=True, filepath_lda='media/google.html')
+    # print('\n\n')
 
-    print('Latent Topics for Tweets about Microsoft')
-    run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft.png', make_vis=True, filepath_lda='media/microsoft.html')
-    print('\n\n')
+    # print('Latent Topics for Tweets about Microsoft')
+    # run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft.png', make_vis=True, filepath_lda='media/microsoft.html')
+    # print('\n\n')
 
-    print('Latent Topics for Tweets about Twitter')
-    run_lda(twitter_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_twitter.png', make_vis=True, filepath_lda='media/twitter.html')
-    print('\n\n')
+    # print('Latent Topics for Tweets about Twitter')
+    # run_lda(twitter_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_twitter.png', make_vis=True, filepath_lda='media/twitter.html')
+    # print('\n\n')
     
     
     # corpus = twitter['TweetText'].to_numpy()
@@ -157,9 +157,9 @@ if __name__ == '__main__':
     
     
     # Testing Visualizer functions
-    # viz = Visualizer()
+    viz.plot_sentiments_pie()
     # viz.plot_categories_bar()
-    # viz.plot_categories_pie()
+    viz.plot_categories_pie()
 
     # word_count = cleaner.wc_whole_corpus()
     # viz.plot_wc(word_count, n=20, filepath='media/tf_withviz.png')

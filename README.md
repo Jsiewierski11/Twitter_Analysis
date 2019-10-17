@@ -11,6 +11,7 @@ My goal for the project was to be able to identify clusters within the entire co
 
 
 ### Notes about the data
+![picture of the dataframe of the csv file](media/twitter_df.png)
 - 5113 total documents
     - Sentiment
         - 519 documents labeled as having a positive sentiment
@@ -24,6 +25,7 @@ My goal for the project was to be able to identify clusters within the entire co
         - 1290 documents labeled as having a topic of Twitter
 
 ![Pie Chart about Data](./media/categories_pie.png)
+![Pie Chart about Data](media/sentiment_pie.png)
 
 
 ### Notes about NLP process

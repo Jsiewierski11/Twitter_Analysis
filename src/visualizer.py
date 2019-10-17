@@ -83,7 +83,7 @@ class Visualizer(object):
         topic_labels = ['1142 Tweets', '1317 Tweets', '1364 Tweets', '1290 Tweets']
         legend_labels = ['Apple', 'Google', 'Microsoft', 'Twitter']
 
-        fig, ax = plt.subplots(figsize=(7, 4))
+        fig, ax = plt.subplots(figsize=(7, 3))
         
         wedges, texts, autotexts = plt.pie(topic_values, \
                                            labels=topic_labels, \
@@ -97,6 +97,34 @@ class Visualizer(object):
         
         plt.title('Number of Tweets in Each Predefined Topic', fontsize=14)
         plt.savefig('media/categories_pie.png')
+        # plt.show()
+
+
+    def plot_sentiments_pie(self):
+        '''
+            - 519 documents labeled as having a positive sentiment
+            - 572 documents labeled as having a negative sentiment
+            - 2333 documents labeled as having a neutral sentiment
+            - 1689 documents labeled as having an irrelevant sentiment
+        '''
+        sentiment_values = [2333, 519, 572, 1689]
+        sentiment_labels = ['2333 Tweets', '519 Tweets', '572 Tweets', '1689 Tweets']
+        legend_labels = ['Neutral', 'Postive', 'Negative', 'Irrelevant']
+
+        fig, ax = plt.subplots(figsize=(7, 3))
+        
+        wedges, texts, autotexts = plt.pie(sentiment_values, \
+                                           labels=sentiment_labels, \
+                                           colors=['grey', 'green', 'red', 'cyan'], \
+                                           autopct='%1.1f%%', \
+                                           textprops=dict(color="black"))
+        plt.legend(wedges, legend_labels,
+                   title="Topics",
+                   loc="center left",
+                   bbox_to_anchor=(1, 0, 0.5, 1))
+        
+        plt.title('Number of Tweets for Each Sentiment Topic', fontsize=14)
+        plt.savefig('media/sentiment_pie.png')
         # plt.show()
 
 
