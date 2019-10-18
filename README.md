@@ -52,8 +52,8 @@ Another thing to take note of is that we see some Spanish words pop up in the to
 Unsurprisingly and unfortantely the amount of tweets that had neither a positive or negative sentiment was almost 80% of the tweets, giving me very little data to look at if I was going to do topic modeling based off sentiments. Fortunately the tweets were almost perectly divided when seperating the data by Topics. After seeing how uneven and evenly distributed the sentiments and topics were I was curious to look at how the sentiments were distributed amoungst tweets talking about each of the 4 companies.
 
 
-![Pie Chart](media/apple_sentiments.png) ![Pie Chart](media/google_sentiments.png)
-![Pie Chart](media/microsoft_sentiments.png) ![Pie Chart](media/twitter_sentiments.png)
+![Pie Chart](media/google_sentiments.png) ![Pie Chart](media/microsoft_sentiments.png) 
+![Pie Chart](media/twitter_sentiments.png) ![Pie Chart](media/apple_sentiments.png)
 
 For the most part these sentiment distributions seemed to follow the same trend as the whole corpus, with the exception of Apple having a rather large portion of tweets having a negative sentiment.
 
