@@ -47,6 +47,12 @@ Another thing to take note of is that we see some Spanish words pop up in the to
 Unsurprisingly and unfortantely the amount of tweets that had neither a positive or negative sentiment was almost 80% of the tweets, giving me very little data to look at if I was going to do topic modeling based off sentiments. Fortunately the tweets were almost perectly divided when seperating the data by Topics. After seeing how uneven and evenly distributed the sentiments and topics were I was curious to look at how the sentiments were distributed amoungst tweets talking about each of the 4 companies.
 
 
+![Pie Chart](media/apple_sentiments.png) ![Pie Chart](media/google_sentiments.png)
+![Pie Chart](media/microsoft_sentiments.png) ![Pie Chart](media/twitter_sentiments.png)
+
+For the most part these sentiment distributions seemed to follow the same trend as the whole corpus, with the exception of Twitter having a rather large portion of tweets having a negative sentiment.
+
+
 # NLP Workflow
 1. Read csv file into a pandas dataframe.
 2. Segmented dataframe into smaller ones based on topic while preserving the original dataframe.
@@ -430,7 +436,7 @@ Cluster 3:
  mi
 ```
 
-## What I learned
+# Conclusion
 - LDA seemed to perform better when the data was segmented. It appears that having text that is talking about one topic, or in this case one company. Will produce clearer latent topics.
 - Since LDA is a probabilistic model it will usually have high variance and low bias, LDA will perform much better when given larger amounts of data.
     - Although in this case having coherent topics seemed to matter more than having a slightly larger dataset.
