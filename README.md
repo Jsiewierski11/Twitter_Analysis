@@ -183,7 +183,7 @@ Top terms per cluster:
 
 Here are the metrics when I took out English, Spanish, and my custom stopwords.
 
-## Apple
+### Apple
 ```
 Latent Topics for Tweets about Apple
 [(0,
@@ -282,8 +282,13 @@ Coherence Score:  0.5736462770440464
 ```
 
 # Conclusion
-- LDA seemed to perform better when the data was segmented. It appears that having text that is talking about one topic, or in this case one company. Will produce clearer latent topics.
-- Since LDA is a probabilistic model it will usually have high variance and low bias, LDA will perform much better when given larger amounts of data.
-    - Although in this case having coherent topics seemed to matter more than having a slightly larger dataset.
-- Topic modeling is generally not very effective on shorter documents (i.e. Tweets).
+While no single model gave me clear results on what language peopled used when tweeting about these companies the collection of all these models helped create a clear picture. 
+
+From what I saw most of the time when people were talking about Google it mostly in reference to their mobile products and adroid devices. I couldn't find anyting that seemed to refer to Google itself. Apple seemed to have a similar result where it appeared that most of the people were tweeting about mobile products and there were no mentions of any of the Mac products. Google and Apple were by far the easiest categories to create. Almost all of my models did a good job of picking out language referring to those two topics. 
+
+Microsoft was the next easiest to cluster. Alot of the common words were relating to different Windows products and occasionally Xbox was mentioned. Alot of the time Steve Ballmer came up in the most relevant words, which was the only name that occurred in any of the clusters. This seems to tell me that the public is either much more exposed to Steve Ballmer than the other CEOs at least back in 2011, which is when these tweets were collected. So if people are tweeting about Microsoft there's a good chance they are also talking about Steve Ballmer. 
+
+By far the hardest to cluster was Twitter, which was not what I would have expected. I don't think any of my models gave a clear idea of what type of language people use when tweeting about Twitter. In fact from my results it doesn't seem like people tweet about Twitter at all, they probably go to another platform to express their views on the company.
+
+Another thing I noticed was that LDA seemed to perform better when the data was segmented. It appears that having text that is talking about one topic, or in this case one company. Will produce clearer latent topics. Another interesting thing I found was when reading a [blog post](https://eigenfoo.xyz/lda-sucks/) is that probabilistic models will usually have high variance and low bias, and in turn will perform much better when given larger amounts of data. Although in this case having coherent topics seemed to matter more than having a slightly larger dataset. The other thing that the blog post mentioned was that topic modeling is generally not very effective on shorter documents (i.e. Tweets) and could explain why I was having some intial difficulty when clustering the documents.
 
