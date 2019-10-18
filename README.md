@@ -14,17 +14,18 @@ To get a general feel of the data that I was looking at I needed to do some init
 
 ## Notes about the data
 ![picture of the dataframe of the csv file](media/twitter_df.png)
-|Type of Tweets                  |Number of Tweets|
-| ------------------------------ | -------------- |
-|All Tweets                      |5113            |
-|Tweets with Positive Sentiment  |519             |
-|Tweets with Negative Sentiment  |572             |
-|Tweets with Neutral Sentiment   |2333            |
-|Tweets with Irrelevant Sentiment|1689            |
-|Tweets about Apple              |1142            |
-|Tweets about Google             |1317            |
-|Tweets about Microsoft          |1364            |
-|Tweets about Twitter            |1290            |
+
+| Type of Tweets                   | Number of Tweets |
+| -------------------------------- | --------------   |
+| All Tweets                       | 5113             |
+| Tweets with Positive Sentiment   | 519              |
+| Tweets with Negative Sentiment   | 572              |
+| Tweets with Neutral Sentiment    | 2333             |
+| Tweets with Irrelevant Sentiment | 1689             |
+| Tweets about Apple               | 1142             |
+| Tweets about Google              | 1317             |
+| Tweets about Microsoft           | 1364             |
+| Tweets about Twitter             | 1290             |
 
 
 - 5113 total documents
