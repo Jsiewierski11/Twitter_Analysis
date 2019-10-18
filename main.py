@@ -158,7 +158,16 @@ def plot_coherence_on_companies(twitter, viz):
 if __name__ == '__main__':
     twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
     corpus = twitter['TweetText'].to_numpy()
-    # viz = Visualizer()
+    viz = Visualizer()
+
+    '''
+    Getting Coherence of Whole Dataset
+    '''
+    cleaner = Cleaner(corpus)
+    cleaner.tokenize_corpus(custom_stopwords=True)
+    cleaner.create_bow()
+    model_list, coherence_values = cleaner.compute_coherence_values()
+    viz.plot_coherence(model_list, coherence_values, color='Black', title='Whole Corpus')
 
 
 
@@ -166,7 +175,7 @@ if __name__ == '__main__':
     Segmenting df by Topics 'Apple, Google, Microsoft, Twitter'
     '''
     
-    apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
+    # apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
     # apple_df, google_df, ms_df, twitter_df = get_topics_df(twitter)
 
 
@@ -189,35 +198,35 @@ if __name__ == '__main__':
     '''
     Running K-Means
     '''
-    print('Clusters for K-Means on whole corpus')
-    run_kmeans(corpus)
-    print('\n\n')
+    # print('Clusters for K-Means on whole corpus')
+    # run_kmeans(corpus)
+    # print('\n\n')
 
-    print('Clusters for K-Means on apple corpus')
-    run_kmeans(apple_corpus)
-    print('\n\n')
+    # print('Clusters for K-Means on apple corpus')
+    # run_kmeans(apple_corpus)
+    # print('\n\n')
 
-    print('Clusters for K-Means on google corpus')
-    run_kmeans(google_corpus)
-    print('\n\n')
+    # print('Clusters for K-Means on google corpus')
+    # run_kmeans(google_corpus)
+    # print('\n\n')
 
 
-    print('Clusters for K-Means on microsoft corpus')
-    run_kmeans(ms_corpus)
-    print('\n\n')
+    # print('Clusters for K-Means on microsoft corpus')
+    # run_kmeans(ms_corpus)
+    # print('\n\n')
 
-    print('Clusters for K-Means on twitter corpus')
-    run_kmeans(twitter_corpus)
-    print('\n\n')
+    # print('Clusters for K-Means on twitter corpus')
+    # run_kmeans(twitter_corpus)
+    # print('\n\n')
     
 
 
     '''
     Running LDA on all the Topics
     '''
-    print('Latent Topics for All Documents LDA')
-    run_lda(corpus, num_topics=4, custom_stopwords=True, filepath_wc='media/tf_4_whole_corpus.png', make_vis=True, filepath_lda='media/4_whole_corpus.html')
-    print('\n\n')
+    # print('Latent Topics for All Documents LDA')
+    # run_lda(corpus, num_topics=4, custom_stopwords=True, filepath_wc='media/tf_4_whole_corpus.png', make_vis=True, filepath_lda='media/4_whole_corpus.html')
+    # print('\n\n')
 
     # print('Latent Topics for Tweets about Apple')
     # run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple_mystop.png', make_vis=True, filepath_lda='media/apple_mystop.html')

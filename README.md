@@ -2,8 +2,10 @@
 
 ## Goal and Summary of my Work
 My goal for the project was to use topic modeling on a twitter dataset to help provide insights to what conversations surrounding Apple, Google, Microsoft, and Twitter looked like online. Doing this could be a good way to do market research and give useful insights into potential subpopulations of customer bases for each of the companies, and what those subpopulations are talking about. Since each of these companies are major tech companies it is reasonable to assume that a common meeting ground for discussing these companies would be on social media and that the conversations held here could be more or less representative of the customer base as a whole.
+
 The original plan was to try and create 4 clusters that were somewhat representative of each of those companies. After getting unsatisfactory results using LDA and K-Means for 4 clusters I made a coherence plot to see what the optimal number of clusters would be for this corpus. From the plot you could seee that 12 clusters gave the highest coherence score, so I ran LDA agian except this time with 12 clusters. The results were still not was I was hoping for, so I needed to try another tactic. 
-I then decided brake up the dataset into fourths based on which companies the tweets were talking about. This seemed to produce slightly better results but required a little bit of extra preprocessing that I will discuss later. When performing topic modeling on each of these smaller corpuses I was a little smarter about it and made a couple of different coherence plots for each of the corpus to find the optimal number of clusters to use. The reason for making multiple coherence plots was because I didn't have a random state set the coherence plots were slightly different on each run.
+
+I then decided to brake up the dataset into fourths based on which companies the tweets were talking about. This seemed to produce slightly better results but required a little bit of extra preprocessing that I will discuss later. When performing topic modeling on each of these smaller corpuses I was a little smarter about it and made a couple of different coherence plots for each of the corpus to find the optimal number of clusters to use. The reason for making multiple coherence plots was because I didn't have a random state set the coherence plots were slightly different on each run.
 
 
 ### Models used:
@@ -57,6 +59,8 @@ For the most part these sentiment distributions seemed to follow the same trend 
 
 
 # NLP Workflow
+Now that I had my initial EDA out of the way I could start my NLP and perform my topic modeling. Below was my general work flow for when cleaning the text and running any of the models.
+
 1. Read csv file into a pandas dataframe.
 2. Segmented dataframe into smaller ones based on topic while preserving the original dataframe.
 3. Converted the dataframe to a feature matrix (a numpy array of tweets or documents) as my corpus.
@@ -76,6 +80,7 @@ For the most part these sentiment distributions seemed to follow the same trend 
     - Taken from the paper 'Full-Text or Abstract?Examining Topic Coherence Scores Using LatentDirichlet Allocation' regarding the c_v metric.
     > c_v is  based  on four  parts:  (i)  segmentation  of  the  data  into  word  pairs,  (ii)calculation of word or word pair probabilities, (iii) calculation of a confirmation measure that quantifies how strongly a wordset supports another word set, and finally (iv) aggregation of individual  confirmation  measures  into  an  overall  coherence score.
 
+![coherence](media/coherence_viz.png)
 ![coherence](media/apple_coherence3.png)
 ![coherence](media/google_coherence3.png)
 ![coherence](media/microsoft_coherence3.png)
@@ -91,6 +96,10 @@ For the most part these sentiment distributions seemed to follow the same trend 
     - small values of λ (near 0) highlight potentially rare, but exclusive terms for the selected topic, and large values of λ (near 1)
     - value of 0.5 seemed to be giving me the best result for clustering on the entire corpus
 
+
+
+# Entire Corpus
+As stated 
 
 # Model Evaluation for K-Means
 ## Here are the results for running K-Means on the whole corpus
