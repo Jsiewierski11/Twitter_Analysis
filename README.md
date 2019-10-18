@@ -92,19 +92,48 @@ Now that I had my initial EDA out of the way I could start my NLP and perform my
     - Google: 3
     - Microsoft: 5
     - Twitter: 5
-9. Relevancy metric
+9. For my LDA models I used pyLDAvis to create a cool html representation of the clusters. The visualizations come with a Relevancy metric slider which I found to be the most useful hyper parameter and technique overall for making latent topics more coherent.
     - small values of λ (near 0) highlight potentially rare, but exclusive terms for the selected topic, and large values of λ (near 1)
     - value of 0.5 seemed to be giving me the best result for clustering on the entire corpus
 
 
 
 # Entire Corpus
-As stated 
+While my initial goal of having 4 clusters that were representitive of each company didn't fully come to fruition there were still some useful insights to take out. 
 
-# Model Evaluation for K-Means
-## Here are the results for running K-Means on the whole corpus
+## LDA
+Here is the print out with running LDA without adujusting the relevancy metric
+```
+Latent Topics for All Documents LDA
+[(0,
+  '0.006*"io" + 0.005*"window" + 0.004*"steve" + 0.004*"store" + 0.003*"time" '
+  '+ 0.003*"love" + 0.003*"video" + 0.003*"samsung" + 0.003*"come" + '
+  '0.003*"ballmer"'),
+ (1,
+  '0.016*"nexus" + 0.016*"samsung" + 0.014*"sandwich" + 0.014*"cream" + '
+  '0.013*"ice" + 0.013*"galaxi" + 0.006*"ic" + 0.005*"icecreamsandwich" + '
+  '0.003*"galaxynexus" + 0.003*"window"'),
+ (2,
+  '0.005*"io" + 0.005*"nexus" + 0.004*"window" + 0.004*"samsung" + '
+  '0.004*"nexusprim" + 0.003*"galaxi" + 0.003*"yahoo" + 0.003*"sandwich" + '
+  '0.003*"ice" + 0.003*"cream"'),
+ (3,
+  '0.007*"facebook" + 0.004*"siri" + 0.004*"thank" + 0.004*"updat" + '
+  '0.004*"steve" + 0.004*"store" + 0.003*"window" + 0.003*"io" + 0.003*"win" + '
+  '0.003*"tweet"')]
+```
+Without any hyper parameter adjusting we can see that topics are somewhat distinct except for topics 1 & 2 which are nearly identical and seem to be talking about google and android products. The reason that ice, icecream, and sandwich appear so often is because the latest version of the android operating system is called ice cream sandwich, but none the less I was still suprised to see those words occurr as often as they did. The other two topics while distinct, didn't seem to be about one certain subject. Changing the relevancy metric didn't seem to make those two topics any clearer either.
+
+As mentioned early I ran LDA with 12 clusters but the results weren't significantly more useful, at least for the question I was trying to answer. While I won't go over each individual topic I think it's nice to get a view of the relationship between clusters in terms of Intertopic Distance, which is how distinct each of the topics are to each of other.
+
+![clusters](media/lda_12_clusters.png)
+
+I was suprised to see that none of the clusters overlapped which can often be the case when performing LDA. 
+
+## Model Evaluation for K-Means
+### Here are the results for running K-Means on the whole corpus
 Top terms per cluster:
-1. Cluster 0:
+1. Cluster 1:
     - microsoft
     - http
     - google
@@ -115,7 +144,7 @@ Top terms per cluster:
     - yahoo
     - en
     - nexusprime
-2. Cluster 1:
+2. Cluster 2:
     - twitter
     - rt
     - facebook
@@ -126,7 +155,7 @@ Top terms per cluster:
     - la
     - es
     - goodnight
-3. Cluster 2:
+3. Cluster 3:
     - android
     - google
     - nexus
@@ -137,7 +166,7 @@ Top terms per cluster:
     - galaxy
     - http
     - ics
-4. Cluster 3:
+4. Cluster 4:
     - apple
     - iphone
     - siri
@@ -149,8 +178,12 @@ Top terms per cluster:
     - ios
     - iphone4s
  
+ Here K-Means does a pretty good job of what I was aiming for at least for 2 out of 4 of the clusters. clusters 3 and 4 seem to be talking about google/android products and apple products respectively. Cluster 1 seems to be a hodge podge of all 4 of the companies and is the most general out of the 4. Cluster 2 seems to be a list of Spanish stopwords. For K-Means I hadn't integrated my custom list of Spanish stopwords for the algorithm so that is why we seem those words there but not in my LDA clusters. It's also interesting to note that K-Means did a much better job of group most of the Spanish words together compared to LDA. Every time I ran K-Means there was at 1 cluster that had a bunch of Spanish words while when included in LDA were spread out between the different clusters.
 
 # Model Evaluation For LDA
+
+After running K-Means and LDA on the whole corpus I wanted to see what I find after breaking up the dataset.
+
 ## Here are the metrics when I took out English, Spanish, and my custom stopwords.
 ### Apple
 ```

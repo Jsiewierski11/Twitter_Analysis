@@ -163,11 +163,11 @@ if __name__ == '__main__':
     '''
     Getting Coherence of Whole Dataset
     '''
-    cleaner = Cleaner(corpus)
-    cleaner.tokenize_corpus(custom_stopwords=True)
-    cleaner.create_bow()
-    model_list, coherence_values = cleaner.compute_coherence_values()
-    viz.plot_coherence(model_list, coherence_values, color='Black', title='Whole Corpus')
+    # cleaner = Cleaner(corpus)
+    # cleaner.tokenize_corpus(custom_stopwords=True)
+    # cleaner.create_bow()
+    # model_list, coherence_values = cleaner.compute_coherence_values()
+    # viz.plot_coherence(model_list, coherence_values, color='Black', title='Whole Corpus')
 
 
 
@@ -224,9 +224,9 @@ if __name__ == '__main__':
     '''
     Running LDA on all the Topics
     '''
-    # print('Latent Topics for All Documents LDA')
-    # run_lda(corpus, num_topics=4, custom_stopwords=True, filepath_wc='media/tf_4_whole_corpus.png', make_vis=True, filepath_lda='media/4_whole_corpus.html')
-    # print('\n\n')
+    print('Latent Topics for All Documents LDA')
+    run_lda(corpus, num_topics=4, custom_stopwords=True, filepath_wc='media/tf_4_whole_corpus.png', make_vis=True, filepath_lda='media/4_whole_corpus.html')
+    print('\n\n')
 
     # print('Latent Topics for Tweets about Apple')
     # run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple_mystop.png', make_vis=True, filepath_lda='media/apple_mystop.html')
