@@ -50,7 +50,7 @@ Unsurprisingly and unfortantely the amount of tweets that had neither a positive
 ![Pie Chart](media/apple_sentiments.png) ![Pie Chart](media/google_sentiments.png)
 ![Pie Chart](media/microsoft_sentiments.png) ![Pie Chart](media/twitter_sentiments.png)
 
-For the most part these sentiment distributions seemed to follow the same trend as the whole corpus, with the exception of Twitter having a rather large portion of tweets having a negative sentiment.
+For the most part these sentiment distributions seemed to follow the same trend as the whole corpus, with the exception of Apple having a rather large portion of tweets having a negative sentiment.
 
 
 # NLP Workflow
