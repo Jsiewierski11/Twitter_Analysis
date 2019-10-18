@@ -128,10 +128,9 @@ As mentioned early I ran LDA with 12 clusters but the results weren't significan
 
 ![clusters](media/lda_12_clusters.png)
 
-I was suprised to see that none of the clusters overlapped which can often be the case when performing LDA. 
+I was suprised to see that none of the clusters overlapped which can often be the case when performing LDA. So while I didn't get the clusters I was hoping to see the algorithim was doing it's job well.
 
-## Model Evaluation for K-Means
-### Here are the results for running K-Means on the whole corpus
+## K-Means
 Top terms per cluster:
 1. Cluster 1:
     - microsoft
@@ -180,12 +179,11 @@ Top terms per cluster:
  
  Here K-Means does a pretty good job of what I was aiming for at least for 2 out of 4 of the clusters. clusters 3 and 4 seem to be talking about google/android products and apple products respectively. Cluster 1 seems to be a hodge podge of all 4 of the companies and is the most general out of the 4. Cluster 2 seems to be a list of Spanish stopwords. For K-Means I hadn't integrated my custom list of Spanish stopwords for the algorithm so that is why we seem those words there but not in my LDA clusters. It's also interesting to note that K-Means did a much better job of group most of the Spanish words together compared to LDA. Every time I ran K-Means there was at 1 cluster that had a bunch of Spanish words while when included in LDA were spread out between the different clusters.
 
-# Model Evaluation For LDA
+# Model Evaluation For Corpuses Related to Each Company
 
-After running K-Means and LDA on the whole corpus I wanted to see what I find after breaking up the dataset.
+Here are the metrics when I took out English, Spanish, and my custom stopwords.
 
-## Here are the metrics when I took out English, Spanish, and my custom stopwords.
-### Apple
+## Apple
 ```
 Latent Topics for Tweets about Apple
 [(0,
@@ -281,204 +279,6 @@ Latent Topics for Tweets about Twitter
 Perplexity:  -8.429003991213502
 
 Coherence Score:  0.5736462770440464
-```
-
-Also Here are the K-Means clusters for Each of these topics
-
-```
-Clusters for K-Means on apple corpus
-Top terms per cluster:
-Cluster 0:
- time
- macbook
- apple
- old
- cc
- new
- iphone
- pro
- needs
- miss
-Cluster 1:
- rt
- new
- apple
- iphone4s
- http
- iphone
- siri
- battery
- store
- ios5
-Cluster 2:
- apple
- http
- iphone
- siri
- 4s
- ios5
- store
- app
- ipad
- just
-Cluster 3:
- did
- fuck
- music
- apple
- like
- delete
- hold
- just
- launch
- update
-
-
-
-Clusters for K-Means on google corpus
-Top terms per cluster:
-Cluster 0:
- cream
- ice
- sandwich
- android
- http
- google
- nexus
- galaxy
- samsung
- dhilipsiva
-Cluster 1:
- google
- android
- ics
- nexusprime
- rt
- icecreamsandwich
- galaxynexus
- samsung
- twandroid
- http
-Cluster 2:
- http
- google
- facebook
- seo
- search
- bookcase
- rt
- twitter
- asia
- ebook
-Cluster 3:
- nexus
- galaxy
- samsung
- android
- http
- google
- new
- ics
- dhilipsiva
- galaxynexus
-
-
-
-Clusters for K-Means on microsoft corpus
-Top terms per cluster:
-Cluster 0:
- hyperv
- emc
- white
- fast
- paper
- hp
- applications
- scvmm
- 2012
- e2evc
-Cluster 1:
- en
- el
- kinect
- microsoft
- http
- cualquier
- superficie
- táctil
- rt
- que
-Cluster 2:
- ballmer
- android
- steve
- yahoo
- ceo
- http
- microsoft
- lucky
- buying
- steveballmer
-Cluster 3:
- microsoft
- http
- windows
- rt
- apple
- skype
- phone
- cloud
- new
- search
-
-
-
-Clusters for K-Means on twitter corpus
-Top terms per cluster:
-Cluster 0:
- los
- tweets
- twitter
- el
- en
- que
- al
- la
- thank
- retweeted
-Cluster 1:
- rt
- twitter
- don
- best
- got
- yonopienso_
- fuckyoumean
- pittsburgh
- retweets
- life
-Cluster 2:
- twitter
- http
- facebook
- goodnight
- like
- rt
- follow
- night
- followers
- lol
-Cluster 3:
- que
- en
- el
- twitter
- la
- es
- lo
- por
- para
- mi
 ```
 
 # Conclusion
