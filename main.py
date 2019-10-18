@@ -28,6 +28,14 @@ def get_topics_corpus(df):
     return apple_corpus, google_corpus, ms_corpus, twitter_corpus
 
 
+def get_topics_df(df):
+    apple_df = df[df['Topic'] == 'apple']
+    google_df = df[df['Topic'] == 'google']
+    ms_df = df[df['Topic'] == 'microsoft']
+    twitter_df = df[df['Topic'] == 'twitter']
+    return apple_df, google_df, ms_df, twitter_df
+
+
 def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath_wc=None, make_vis=True, filepath_lda=None):
     '''
     Running LDA with Gensim
@@ -157,8 +165,13 @@ if __name__ == '__main__':
     Segmenting df by Topics 'Apple, Google, Microsoft, Twitter'
     '''
     
-    apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
+    # apple_corpus, google_corpus, ms_corpus, twitter_corpus = get_topics_corpus(twitter)
+    apple_df, google_df, ms_df, twitter_df = get_topics_df(twitter)
 
+    viz.plot_sentiments_pie(apple_df, title='Apple', filepath='media/apple_sentiments.png')
+    viz.plot_sentiments_pie(google_df, title='Google', filepath='media/google_sentiments.png')
+    viz.plot_sentiments_pie(ms_df, title='Microsoft', filepath='media/microsoft_sentiments.png')
+    viz.plot_sentiments_pie(twitter_df, title='Twitter', filepath='media/twitter_sentiments.png')
 
     '''
     Getting Coherence plots of all the Topics to determine number of clusters to use
@@ -170,21 +183,21 @@ if __name__ == '__main__':
     '''
     Running LDA on all the Topics
     '''
-    print('Latent Topics for Tweets about Apple')
-    run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple_mystop.png', make_vis=True, filepath_lda='media/apple_mystop.html')
-    print('\n\n')
+    # print('Latent Topics for Tweets about Apple')
+    # run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple_mystop.png', make_vis=True, filepath_lda='media/apple_mystop.html')
+    # print('\n\n')
 
-    print('Latent Topics for Tweets about Google')
-    run_lda(google_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_google_mystop.png', make_vis=True, filepath_lda='media/google_mystop.html')
-    print('\n\n')
+    # print('Latent Topics for Tweets about Google')
+    # run_lda(google_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_google_mystop.png', make_vis=True, filepath_lda='media/google_mystop.html')
+    # print('\n\n')
 
-    print('Latent Topics for Tweets about Microsoft')
-    run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft_mystop.png', make_vis=True, filepath_lda='media/microsoft_mystop.html')
-    print('\n\n')
+    # print('Latent Topics for Tweets about Microsoft')
+    # run_lda(ms_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_microsoft_mystop.png', make_vis=True, filepath_lda='media/microsoft_mystop.html')
+    # print('\n\n')
 
-    print('Latent Topics for Tweets about Twitter')
-    run_lda(twitter_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_twitter_mystop.png', make_vis=True, filepath_lda='media/twitter_mystop.html')
-    print('\n\n')
+    # print('Latent Topics for Tweets about Twitter')
+    # run_lda(twitter_corpus, num_topics=3, custom_stopwords=True, filepath_wc='media/tf_twitter_mystop.png', make_vis=True, filepath_lda='media/twitter_mystop.html')
+    # print('\n\n')
     
     
     

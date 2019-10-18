@@ -14,6 +14,19 @@ To get a general feel of the data that I was looking at I needed to do some init
 
 ## Notes about the data
 ![picture of the dataframe of the csv file](media/twitter_df.png)
+|Type of Tweets                  |Number of Tweets|
+| ------------------------------ | -------------- |
+|All Tweets                      |5113            |
+|Tweets with Positive Sentiment  |519             |
+|Tweets with Negative Sentiment  |572             |
+|Tweets with Neutral Sentiment   |2333            |
+|Tweets with Irrelevant Sentiment|1689            |
+|Tweets about Apple              |1142            |
+|Tweets about Google             |1317            |
+|Tweets about Microsoft          |1364            |
+|Tweets about Twitter            |1290            |
+
+
 - 5113 total documents
     - Sentiment
         - 519 documents labeled as having a positive sentiment
@@ -29,7 +42,7 @@ To get a general feel of the data that I was looking at I needed to do some init
 ![Pie Chart about Data](media/sentiment_pie.png)
 ![Pie Chart about Data](media/categories_pie.png)
 
-Unsurprisingly and unfortantely the amount of tweets that had neither a positive or negative sentiment was almost 80% of the tweets, giving me very little data to look at if I was going to do topic modeling based off sentiments. Fortunately the tweets were almost perectly divided when seperating the data by Topics. 
+Unsurprisingly and unfortantely the amount of tweets that had neither a positive or negative sentiment was almost 80% of the tweets, giving me very little data to look at if I was going to do topic modeling based off sentiments. Fortunately the tweets were almost perectly divided when seperating the data by Topics. After seeing how uneven and evenly distributed the sentiments and topics were I was curious to look at how the sentiments were distributed amoungst tweets talking about each of the 4 companies.
 
 ![Word Count for Corpus](media/tf_whole_corpus.png)
 

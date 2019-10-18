@@ -97,32 +97,70 @@ class Visualizer(object):
         # plt.show()
 
 
-    def plot_sentiments_pie(self):
+    def count_sentiments(self, df):
+        pos_df = df[df['Sentiment'] == 'positive']
+        num_pos = len(pos_df)
+
+        neg_df = df[df['Sentiment'] == 'negative']
+        num_neg = len(neg_df)
+
+        neutral_df = df[df['Sentiment'] == 'neutral']
+        num_neu = len(neutral_df)
+
+        irr_df = df[df['Sentiment'] == 'irrelevant']
+        num_irr = len(irr_df)
+
+        return [num_neu, num_pos, num_neg, num_irr]
+
+
+    def plot_sentiments_pie(self, df=None, title='Number of Tweets for Each Sentiment Topic', filepath='media/sentiment_pie.png'):
         '''
             - 519 documents labeled as having a positive sentiment
             - 572 documents labeled as having a negative sentiment
             - 2333 documents labeled as having a neutral sentiment
             - 1689 documents labeled as having an irrelevant sentiment
         '''
-        sentiment_values = [2333, 519, 572, 1689]
-        sentiment_labels = ['2333 Tweets', '519 Tweets', '572 Tweets', '1689 Tweets']
-        legend_labels = ['Neutral', 'Postive', 'Negative', 'Irrelevant']
+        if df is None:
+            sentiment_values = [2333, 519, 572, 1689]
+            sentiment_labels = ['2333 Tweets', '519 Tweets', '572 Tweets', '1689 Tweets']
+            legend_labels = ['Neutral', 'Postive', 'Negative', 'Irrelevant']
 
-        fig, ax = plt.subplots(figsize=(7, 3))
-        
-        wedges, texts, autotexts = plt.pie(sentiment_values, \
-                                           labels=sentiment_labels, \
-                                           colors=['grey', 'green', 'red', 'cyan'], \
-                                           autopct='%1.1f%%', \
-                                           textprops=dict(color="black"))
-        plt.legend(wedges, legend_labels,
-                   title="Topics",
-                   loc="center left",
-                   bbox_to_anchor=(1, 0, 0.5, 1))
-        
-        plt.title('Number of Tweets for Each Sentiment Topic', fontsize=14)
-        plt.savefig('media/sentiment_pie.png')
-        # plt.show()
+            fig, ax = plt.subplots(figsize=(7, 3))
+            
+            wedges, texts, autotexts = plt.pie(sentiment_values, \
+                                            labels=sentiment_labels, \
+                                            colors=['grey', 'green', 'red', 'cyan'], \
+                                            autopct='%1.1f%%', \
+                                            textprops=dict(color="black"))
+            plt.legend(wedges, legend_labels,
+                    title="Topics",
+                    loc="center left",
+                    bbox_to_anchor=(1, 0, 0.5, 1))
+            
+            plt.title('Number of Tweets for Each Sentiment Topic', fontsize=14)
+            plt.savefig('media/sentiment_pie.png')
+        else:
+            sentiment_values = self.count_sentiments(df)
+            sentiment_labels = [f'{sentiment_values[0]} Tweets', \
+                                f'{sentiment_values[1]} Tweets', \
+                                f'{sentiment_values[2]} Tweets', \
+                                f'{sentiment_values[3]} Tweets']
+            legend_labels = ['Neutral', 'Postive', 'Negative', 'Irrelevant']
+
+            fig, ax = plt.subplots(figsize=(5, 3))
+            
+            wedges, texts, autotexts = plt.pie(sentiment_values, \
+                                            labels=sentiment_labels, \
+                                            colors=['grey', 'green', 'red', 'cyan'], \
+                                            autopct='%1.1f%%', \
+                                            textprops=dict(color="black"))
+            plt.legend(wedges, legend_labels,
+                    title="Topics",
+                    loc="center left",
+                    bbox_to_anchor=(1, 0, 0.5, 1))
+            
+            plt.title(title, fontsize=14)
+            plt.savefig(filepath)
 
 
     #Define the word cloud function with a max of 200 words
