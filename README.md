@@ -10,10 +10,24 @@ My goal for the project was to be able to identify clusters within the entire co
     - Hard Clustering
 
 # EDA
-To get a general feel of the data that I was looking at I needed to do some initial EDA to see if I had a balanced dataset and what the word counts looked like for all tweets in the dataset.
+
+As per my usual work flow when working and cleaning data I read the csv file into a pandas data frame, here is a snippet of that data frame.
+
+![picture of the dataframe of the csv file](media/twitter_df.png)
+
+To get a general feel of the data the first thing I wanted to do was get a word count of all the words in the corpus, except for stop words.
+
+![Word Count for Corpus](media/tf_whole_corpus.png)
+
+Not surprisingly we see that Apple, Google, Microsoft, and Twitter and among the most popular words in the corpus, which makes sense since all of the tweets are talking about one of those companies. But none of those occur as much as http. This is due to the Stemming that was used when gathering the word count. Anytime there was a hyper link in the tweet everything in the url would get dropped from the stemmer, except the http. Seeing that there is almost 2500 http occurrences and 5113 tweets, there is almost half as many links as there are tweets. This seems to indicate that when talking about these companies that people are often sharing links to news articles about the company or maybe images about the companies products. Take for example this tweet.
+
+> 'Amazing new @Apple iOs 5 feature.  http://t.co/jatFVfpM'
+
+
+Another thing to take note of is that we see some Spanish words pop up in the top 20 words. This presented an additional challenge when doing the preprocessing as I had to make an additional list of Spanish stopwords to add to Gensims built in list of stop words.  
 
 ## Notes about the data
-![picture of the dataframe of the csv file](media/twitter_df.png)
+
 
 | Type of Tweets                   | Number of Tweets |
 | -------------------------------- | --------------   |
@@ -27,25 +41,10 @@ To get a general feel of the data that I was looking at I needed to do some init
 | Tweets about Microsoft           | 1364             |
 | Tweets about Twitter             | 1290             |
 
-
-- 5113 total documents
-    - Sentiment
-        - 519 documents labeled as having a positive sentiment
-        - 572 documents labeled as having a negative sentiment
-        - 2333 documents labeled as having a neutral sentiment
-        - 1689 documents labeled as having an irrelevant sentiment
-    - Topics
-        - 1142 documents labeled as having a topic of Apple
-        - 1317 documents labeled as having a topic of Google
-        - 1364 documents labeled as having a topic of Microsoft
-        - 1290 documents labeled as having a topic of Twitter
-
 ![Pie Chart about Data](media/sentiment_pie.png)
 ![Pie Chart about Data](media/categories_pie.png)
 
 Unsurprisingly and unfortantely the amount of tweets that had neither a positive or negative sentiment was almost 80% of the tweets, giving me very little data to look at if I was going to do topic modeling based off sentiments. Fortunately the tweets were almost perectly divided when seperating the data by Topics. After seeing how uneven and evenly distributed the sentiments and topics were I was curious to look at how the sentiments were distributed amoungst tweets talking about each of the 4 companies.
-
-![Word Count for Corpus](media/tf_whole_corpus.png)
 
 
 # NLP Workflow
@@ -84,7 +83,56 @@ Unsurprisingly and unfortantely the amount of tweets that had neither a positive
     - value of 0.5 seemed to be giving me the best result for clustering on the entire corpus
 
 
-# Model Evaluation
+# Model Evaluation for K-Means
+## Here are the results for running K-Means on the whole corpus
+Top terms per cluster:
+1. Cluster 0:
+    - microsoft
+    - http
+    - google
+    - rt
+    - windows
+    - android
+    - ballmer
+    - yahoo
+    - en
+    - nexusprime
+2. Cluster 1:
+    - twitter
+    - rt
+    - facebook
+    - que
+    - en
+    - el
+    - http
+    - la
+    - es
+    - goodnight
+3. Cluster 2:
+    - android
+    - google
+    - nexus
+    - sandwich
+    - cream
+    - ice
+    - samsung
+    - galaxy
+    - http
+    - ics
+4. Cluster 3:
+    - apple
+    - iphone
+    - siri
+    - http
+    - ios5
+    - store
+    - 4s
+    - new
+    - ios
+    - iphone4s
+ 
+
+# Model Evaluation For LDA
 ## Here are the metrics when I took out English, Spanish, and my custom stopwords.
 ### Apple
 ```
@@ -184,8 +232,203 @@ Perplexity:  -8.429003991213502
 Coherence Score:  0.5736462770440464
 ```
 
+Also Here are the K-Means clusters for Each of these topics
+
+```
+Clusters for K-Means on apple corpus
+Top terms per cluster:
+Cluster 0:
+ time
+ macbook
+ apple
+ old
+ cc
+ new
+ iphone
+ pro
+ needs
+ miss
+Cluster 1:
+ rt
+ new
+ apple
+ iphone4s
+ http
+ iphone
+ siri
+ battery
+ store
+ ios5
+Cluster 2:
+ apple
+ http
+ iphone
+ siri
+ 4s
+ ios5
+ store
+ app
+ ipad
+ just
+Cluster 3:
+ did
+ fuck
+ music
+ apple
+ like
+ delete
+ hold
+ just
+ launch
+ update
 
 
+
+Clusters for K-Means on google corpus
+Top terms per cluster:
+Cluster 0:
+ cream
+ ice
+ sandwich
+ android
+ http
+ google
+ nexus
+ galaxy
+ samsung
+ dhilipsiva
+Cluster 1:
+ google
+ android
+ ics
+ nexusprime
+ rt
+ icecreamsandwich
+ galaxynexus
+ samsung
+ twandroid
+ http
+Cluster 2:
+ http
+ google
+ facebook
+ seo
+ search
+ bookcase
+ rt
+ twitter
+ asia
+ ebook
+Cluster 3:
+ nexus
+ galaxy
+ samsung
+ android
+ http
+ google
+ new
+ ics
+ dhilipsiva
+ galaxynexus
+
+
+
+Clusters for K-Means on microsoft corpus
+Top terms per cluster:
+Cluster 0:
+ hyperv
+ emc
+ white
+ fast
+ paper
+ hp
+ applications
+ scvmm
+ 2012
+ e2evc
+Cluster 1:
+ en
+ el
+ kinect
+ microsoft
+ http
+ cualquier
+ superficie
+ táctil
+ rt
+ que
+Cluster 2:
+ ballmer
+ android
+ steve
+ yahoo
+ ceo
+ http
+ microsoft
+ lucky
+ buying
+ steveballmer
+Cluster 3:
+ microsoft
+ http
+ windows
+ rt
+ apple
+ skype
+ phone
+ cloud
+ new
+ search
+
+
+
+Clusters for K-Means on twitter corpus
+Top terms per cluster:
+Cluster 0:
+ los
+ tweets
+ twitter
+ el
+ en
+ que
+ al
+ la
+ thank
+ retweeted
+Cluster 1:
+ rt
+ twitter
+ don
+ best
+ got
+ yonopienso_
+ fuckyoumean
+ pittsburgh
+ retweets
+ life
+Cluster 2:
+ twitter
+ http
+ facebook
+ goodnight
+ like
+ rt
+ follow
+ night
+ followers
+ lol
+Cluster 3:
+ que
+ en
+ el
+ twitter
+ la
+ es
+ lo
+ por
+ para
+ mi
+```
 
 ## What I learned
 - LDA seemed to perform better when the data was segmented. It appears that having text that is talking about one topic, or in this case one company. Will produce clearer latent topics.
