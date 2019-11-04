@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.utils import resample
 
 class DF_Cleaner(object):
     def __init__(self):
@@ -44,3 +45,17 @@ class DF_Cleaner(object):
         neutral_df = df[df['Sentiment'] == 'neutral']
         irr_df = df[df['Sentiment'] == 'irrelevant']
         return pos_df, neg_df, neutral_df, irr_df
+
+
+    def balance_df(self, dfs_to_balance, minority_df):
+        dfs = []
+        for df in dfs_to_balance:
+            # Downsample majority class to match minority class
+            df_down = resample(df,
+                                replace=False,    # sample without replacement
+                                n_samples=len(minority_df),     # to match minority class
+                                random_state=42) # reproducible results
+            dfs.append(df_down)
+        dfs.append(minority_df)
+        df_balanced = pd.concat(dfs)
+        return df_balanced

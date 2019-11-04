@@ -7,7 +7,6 @@ import pickle
 from sklearn import utils
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.utils import resample
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
@@ -19,20 +18,6 @@ class Naive_Bayes(object):
         self.count_vect = None
         self.tfidf_transformer = None
         self.clf = None
-
-
-    def balance_df(self, dfs_to_balance, minority_df):
-        dfs = []
-        for df in dfs_to_balance:
-            # Downsample majority class to match minority class
-            df_down = resample(df,
-                                replace=False,    # sample without replacement
-                                n_samples=len(minority_df),     # to match minority class
-                                random_state=42) # reproducible results
-            dfs.append(df_down)
-        dfs.append(minority_df)
-        df_balanced = pd.concat(dfs)
-        return df_balanced
 
 
     def compute_tf_and_tfidf(self, train_text):

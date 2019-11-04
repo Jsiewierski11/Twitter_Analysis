@@ -7,6 +7,7 @@ from src.kmeans_operator import Kmeans_Operator as KMO
 from src.visualizer import Visualizer
 from src.naive_bayes import Naive_Bayes
 from src.df_cleaner import DF_Cleaner
+from src.runner import Runner
 
 
 def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath_wc=None, make_vis=True, filepath_lda=None):
@@ -129,33 +130,17 @@ def plot_coherence_on_companies(twitter, viz):
 
 
 if __name__ == '__main__':
-    twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
-    # corpus = twitter['TweetText'].to_numpy()
-    viz = Visualizer()
-    # gen_lda = Gensim_LDA(corpus)
+    runner = Runner()
 
-    
-    '''
-    Sentiment Classification with Naive Bayes
-    '''
-    nb = Naive_Bayes()
-    df_cleaner = DF_Cleaner()
-    pos_df, neg_df, neutral_df, irr_df = df_cleaner.get_sentiment_df(twitter)
-    balanced_df = nb.balance_df([neg_df, neutral_df, irr_df], neg_df)
-    y = balanced_df.pop('Sentiment')
-    X_train, X_test, y_train, y_test = train_test_split(balanced_df, y, random_state=42)
+    '''Naive Bayes Sentiment Classification TF-IDF'''
+    # runner.run_naive_bayes()
+    '''Logistic Regression Classification with Doc2Vec'''
+    runner.run_doc2vec()
 
-    train_text = X_train['TweetText'].to_numpy()
-    test_text = X_test['TweetText'].to_numpy()
-
-    X_train_counts, X_train_tfidf = nb.compute_tf_and_tfidf(train_text)
-    y_pred = nb.classify(X_train_tfidf, y_train, test_text)
-    nb.print_metrics(y_test, y_pred)
-    nb.pickle_model()
-    viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral', 'irrelevant'], \
-                              title='Confusion matrix, without normalization')
-    plt.savefig('media/confusion_matrix/naive_bayes_confmat.png')
-    plt.close()
+    # twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
+    # # corpus = twitter['TweetText'].to_numpy()
+    # viz = Visualizer()
+    # # gen_lda = Gensim_LDA(corpus)
 
     '''
     Getting Coherence of Whole Dataset
