@@ -1,8 +1,11 @@
 import numpy as np
 import pandas as pd
-from src.cleaner import Cleaner
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from src.gensim_lda import Gensim_LDA
 from src.kmeans_operator import Kmeans_Operator as KMO
 from src.visualizer import Visualizer
+from src.naive_bayes import Naive_Bayes
 
 def get_sentiment_corpus(df):
     pos_df = df[df['Sentiment'] == 'positive']
@@ -36,15 +39,23 @@ def get_topics_df(df):
     return apple_df, google_df, ms_df, twitter_df
 
 
+def get_sentiment_df(df):
+    pos_df = df[df['Sentiment'] == 'positive']
+    neg_df = df[df['Sentiment'] == 'negative']
+    neutral_df = df[df['Sentiment'] == 'neutral']
+    irr_df = df[df['Sentiment'] == 'irrelevant']
+    return pos_df, neg_df, neutral_df, irr_df
+
+
 def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath_wc=None, make_vis=True, filepath_lda=None):
     '''
     Running LDA with Gensim
     '''
-    cleaner = Cleaner(corpus)
+    cleaner = Gensim_LDA(corpus)
     viz = Visualizer()
 
     if custom_stopwords:
-        # Using custom Stopwords
+        # Using custom StCleaner(opwords
         cleaner.tokenize_corpus(custom_stopwords=True)
         word_count = cleaner.wc_whole_corpus()
         if filepath_wc is None:
@@ -124,7 +135,7 @@ def run_all_models(corpus, pos_corpus, neg_corpus, neutral_corpus, irr_corpus):
 
 def plot_coherence_on_companies(twitter, viz):
     # Apple
-    apple_cleaner = Cleaner(apple_corpus)
+    apple_cleaner = Gensim_LDA(apple_corpus)
     apple_cleaner.tokenize_corpus()
     apple_cleaner.create_bow()
     model_list, coherence_values = apple_cleaner.compute_coherence_values()
@@ -132,7 +143,7 @@ def plot_coherence_on_companies(twitter, viz):
 
 
     # Google
-    google_cleaner = Cleaner(google_corpus)
+    google_cleaner = Gensim_LDA(google_corpus)
     google_cleaner.tokenize_corpus()
     google_cleaner.create_bow()
     model_list, coherence_values = google_cleaner.compute_coherence_values()
@@ -140,7 +151,7 @@ def plot_coherence_on_companies(twitter, viz):
 
 
     # Microsoft
-    ms_cleaner = Cleaner(ms_corpus)
+    ms_cleaner = Gensim_LDA(ms_corpus)
     ms_cleaner.tokenize_corpus()
     ms_cleaner.create_bow()
     model_list, coherence_values = ms_cleaner.compute_coherence_values()
@@ -148,7 +159,7 @@ def plot_coherence_on_companies(twitter, viz):
 
 
     # Twiiter
-    twitter_cleaner = Cleaner(twitter_corpus)
+    twitter_cleaner = Gensim_LDA(twitter_corpus)
     twitter_cleaner.tokenize_corpus()
     twitter_cleaner.create_bow()
     model_list, coherence_values = twitter_cleaner.compute_coherence_values()
@@ -157,8 +168,31 @@ def plot_coherence_on_companies(twitter, viz):
 
 if __name__ == '__main__':
     twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
-    corpus = twitter['TweetText'].to_numpy()
+    # corpus = twitter['TweetText'].to_numpy()
     viz = Visualizer()
+    # gen_lda = Gensim_LDA(corpus)
+
+    
+    '''
+    Sentiment Classification with Naive Bayes
+    '''
+    nb = Naive_Bayes()
+    pos_df, neg_df, neutral_df, irr_df = get_sentiment_df(twitter)
+    balanced_df = nb.balance_df([neg_df, neutral_df, irr_df], neg_df)
+    y = balanced_df.pop('Sentiment')
+    X_train, X_test, y_train, y_test = train_test_split(balanced_df, y, random_state=42)
+
+    train_text = X_train['TweetText'].to_numpy()
+    test_text = X_test['TweetText'].to_numpy()
+
+    X_train_counts, X_train_tfidf = nb.compute_tf_and_tfidf(train_text)
+    y_pred = nb.classify(X_train_tfidf, y_train, test_text)
+    nb.print_metrics(y_test, y_pred)
+    nb.pickle_model()
+    viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral', 'irrelevant'], \
+                              title='Confusion matrix, without normalization')
+    plt.savefig('media/confusion_matrix/naive_bayes_confmat.png')
+    plt.close()
 
     '''
     Getting Coherence of Whole Dataset
@@ -224,9 +258,9 @@ if __name__ == '__main__':
     '''
     Running LDA on all the Topics
     '''
-    print('Latent Topics for All Documents LDA')
-    run_lda(corpus, num_topics=4, custom_stopwords=True, filepath_wc='media/tf_4_whole_corpus.png', make_vis=True, filepath_lda='media/4_whole_corpus.html')
-    print('\n\n')
+    # print('Latent Topics for All Documents LDA')
+    # run_lda(corpus, num_topics=4, custom_stopwords=True, filepath_wc='media/tf_4_whole_corpus.png', make_vis=True, filepath_lda='media/4_whole_corpus.html')
+    # print('\n\n')
 
     # print('Latent Topics for Tweets about Apple')
     # run_lda(apple_corpus, num_topics=5, custom_stopwords=True, filepath_wc='media/tf_apple_mystop.png', make_vis=True, filepath_lda='media/apple_mystop.html')
