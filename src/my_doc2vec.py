@@ -1,7 +1,10 @@
 from gensim.models import Doc2Vec
 from gensim.models.doc2vec import TaggedDocument
+from gensim.parsing.preprocessing import STOPWORDS
+from gensim.utils import simple_preprocess
 import nltk
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer, SnowballStemmer
 from tqdm import tqdm
 from sklearn import utils
 import pickle
@@ -19,11 +22,19 @@ class My_Doc2Vec(object):
 
     def tokenize_text(self, text):
         tokens = []
+        # Adding to stopwords
+        stopwords = STOPWORDS.copy()
+        stopwords = set(stopwords)
+        spanish = self._get_spanish_stopwords()
+        stopwords.update(spanish)
+        stopwords.update(['http', 'fuck', 'rt'])
+
         for sent in nltk.sent_tokenize(text):
             for word in nltk.word_tokenize(sent):
-                if len(word) < 2:
-                    continue
-                tokens.append(word.lower())
+                if word not in stopwords:
+                    if len(word) < 2:
+                        continue
+                    tokens.append(self._lemmatize_stemming(word.lower()))
         return tokens
 
 
@@ -50,3 +61,16 @@ class My_Doc2Vec(object):
         # Saving File
         with open(filepath, 'wb') as f:
             pickle.dump(clf, f)
+
+
+    '''
+    Protected Methods
+    Do not use outside of this class!
+    '''
+    def _get_spanish_stopwords(self):
+        x = [line.rstrip() for line in open('src/stop_words/spanish.txt')]
+        return set(x)
+
+    def _lemmatize_stemming(self, text):
+        stemmer = SnowballStemmer('english')
+        return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))

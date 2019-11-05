@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+
+import os, sys
+sys.path.append(os.path.abspath('..'))
 from src.gensim_lda import Gensim_LDA
 from src.kmeans_operator import Kmeans_Operator as KMO
 from src.visualizer import Visualizer
@@ -132,10 +135,13 @@ def plot_coherence_on_companies(twitter, viz):
 if __name__ == '__main__':
     runner = Runner()
 
-    '''Naive Bayes Sentiment Classification TF-IDF'''
-    # runner.run_naive_bayes()
-    '''Logistic Regression Classification with Doc2Vec'''
-    runner.run_doc2vec()
+    '''TF-IDF'''
+    runner.run_naive_bayes_sentiment()
+    runner.run_naive_bayes_topic()
+
+    '''Doc2Vec'''
+    # runner.run_doc2vec_logreg()
+    # runner.run_doc2vec_naivebayes()
 
     # twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
     # # corpus = twitter['TweetText'].to_numpy()
