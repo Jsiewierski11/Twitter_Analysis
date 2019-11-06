@@ -44,7 +44,10 @@ class Naive_Bayes(object):
         print(accuracy_score(y_test, y_pred))
 
 
-    def pickle_model(self, filepath='models/naive_bayes.pkl'):
+    def pickle_model(self, filepath_cv='models/count_vect.pkl', filepath_clf='models/naive_bayes.pkl'):
         # Saving File
-        with open(filepath, 'wb') as f:
+        with open(filepath_clf, 'wb') as f:
             pickle.dump(self.clf, f)
+
+        with open(filepath_cv, 'wb') as f:
+            pickle.dump(self.count_vect, f)

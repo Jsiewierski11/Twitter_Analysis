@@ -37,7 +37,7 @@ class Runner(object):
         X_train_counts, X_train_tfidf = nb.compute_tf_and_tfidf(train_text)
         y_pred = nb.classify(X_train_tfidf, y_train, test_text)
         nb.print_metrics(y_test, y_pred)
-        nb.pickle_model(filepath='../models/naive_bayes_sentiment.pkl')
+        nb.pickle_model(filepath_cv='../models/count_vect_sent.pkl', filepath_clf='../models/naive_bayes_sent.pkl')
         viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral', 'irrelevant'], \
                                   title='Multinomial Naive Bayes with TF-IDF')
         plt.savefig('../media/confusion_matrix/tfidf_nb_confmat_sentiment.png')
@@ -65,7 +65,7 @@ class Runner(object):
         X_train_counts, X_train_tfidf = nb.compute_tf_and_tfidf(train_text)
         y_pred = nb.classify(X_train_tfidf, y_train, test_text)
         nb.print_metrics(y_test, y_pred)
-        nb.pickle_model(filepath='../models/naive_bayes_companies.pkl')
+        nb.pickle_model(filepath_cv='../models/count_vect_companies.pkl', filepath_clf='../models/naive_bayes_companies.pkl')
         viz.plot_confusion_matrix(y_test, y_pred, classes=['apple', 'google', 'microsoft', 'twitter'], \
                                   title='Multinomial Naive Bayes with TF-IDF')
         plt.savefig('../media/confusion_matrix/tfidf_nb_confmat_companies.png')
