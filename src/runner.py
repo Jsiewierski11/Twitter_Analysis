@@ -27,7 +27,7 @@ class Runner(object):
         nb = Naive_Bayes()
         dfc = DF_Cleaner()
         pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
-        balanced_df = dfc.balance_df([neg_df, neutral_df, irr_df], neg_df)
+        balanced_df = dfc.balance_df([neg_df, neutral_df], pos_df)
         y = balanced_df.pop('Sentiment')
         X_train, X_test, y_train, y_test = train_test_split(balanced_df, y, random_state=42)
 
@@ -38,7 +38,7 @@ class Runner(object):
         y_pred = nb.classify(X_train_tfidf, y_train, test_text)
         nb.print_metrics(y_test, y_pred)
         nb.pickle_model(filepath_cv='../models/count_vect_sent.pkl', filepath_clf='../models/naive_bayes_sent.pkl')
-        viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral', 'irrelevant'], \
+        viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral'], \
                                   title='Multinomial Naive Bayes with TF-IDF')
         plt.savefig('../media/confusion_matrix/tfidf_nb_confmat_sentiment.png')
         plt.close()
