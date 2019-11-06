@@ -31,10 +31,11 @@ class My_Doc2Vec(object):
 
         for sent in nltk.sent_tokenize(text):
             for word in nltk.word_tokenize(sent):
-                if word not in stopwords:
-                    if len(word) < 2:
-                        continue
-                    tokens.append(self._lemmatize_stemming(word.lower()))
+                # if word not in stopwords:
+                if len(word) < 2:
+                    continue
+                # tokens.append(self._lemmatize_stemming(word.lower()))
+                tokens.append(word.lower())
         return tokens
 
 
@@ -46,7 +47,7 @@ class My_Doc2Vec(object):
 
     def create_model_and_vocab(self, train_tagged, cores = 2):
         # dbow stands for Distributed Bag of Words
-        self.model_dbow = Doc2Vec(dm=0, vector_size=30, negative=5, hs=0, min_count=2, sample = 0, workers=cores)
+        self.model_dbow = Doc2Vec(dm=0, vector_size=10, negative=5, hs=0, min_count=2, sample = 0, workers=cores)
         self.model_dbow.build_vocab([x for x in tqdm(train_tagged.values)])
 
 
@@ -57,7 +58,7 @@ class My_Doc2Vec(object):
             self.model_dbow.min_alpha = self.model_dbow.alpha
 
     
-    def pickle_model(self, clf, filepath='models/doc2vec_logreg.pkl'):
+    def pickle_model(self, clf, filepath='../models/doc2vec_logreg.pkl'):
         # Saving File
         with open(filepath, 'wb') as f:
             pickle.dump(clf, f)
@@ -68,7 +69,7 @@ class My_Doc2Vec(object):
     Do not use outside of this class!
     '''
     def _get_spanish_stopwords(self):
-        x = [line.rstrip() for line in open('src/stop_words/spanish.txt')]
+        x = [line.rstrip() for line in open('stop_words/spanish.txt')]
         return set(x)
 
     def _lemmatize_stemming(self, text):

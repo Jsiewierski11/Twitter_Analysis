@@ -74,14 +74,14 @@ class Runner(object):
 
     def run_doc2vec_logreg(self):
         print("Running Logistic Regression Classification with Doc2Vec")
-        twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
+        twitter = pd.read_csv('../data/full-corpus.csv', encoding='utf-8')
         dfc = DF_Cleaner()
         viz = Visualizer()
         d2v = My_Doc2Vec()
 
         # Balancing and Train Test Split
         pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
-        balanced_df = dfc.balance_df([neg_df, neutral_df, irr_df], neg_df)
+        balanced_df = dfc.balance_df([neg_df, neutral_df], pos_df)
         train, test = train_test_split(balanced_df, test_size=0.3, random_state=42) 
 
         '''
@@ -100,21 +100,21 @@ class Runner(object):
         print('Testing accuracy %s' % accuracy_score(y_test, y_pred))
         print('Testing F1 score: {}'.format(f1_score(y_test, y_pred, average='weighted')))
 
-        d2v.pickle_model(logreg)
+        d2v.pickle_model(logreg, filepath='../models/doc2vec_logreg.pkl')
         viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral', 'irrelevant'], \
                                   title='Logestic Regression with Doc2Vec')
-        plt.savefig('media/confusion_matrix/d2v_logreg_confmat.png')
+        plt.savefig('../media/confusion_matrix/d2v_logreg_confmat.png')
         plt.close()
 
     def run_doc2vec_naivebayes(self):
         print("Running Naive Bayes Classification with Doc2Vec")
-        twitter = pd.read_csv('data/full-corpus.csv', encoding='utf-8')
+        twitter = pd.read_csv('../data/full-corpus.csv', encoding='utf-8')
         dfc = DF_Cleaner()
         viz = Visualizer()
 
         # Balancing and Train Test Split
         pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
-        balanced_df = dfc.balance_df([neg_df, neutral_df, irr_df], neg_df)
+        balanced_df = dfc.balance_df([neg_df, neutral_df], pos_df)
         train, test = train_test_split(balanced_df, test_size=0.3, random_state=42) 
 
         '''
@@ -138,9 +138,9 @@ class Runner(object):
         print('Testing accuracy %s' % accuracy_score(y_test, y_pred))
         print('Testing F1 score: {}'.format(f1_score(y_test, y_pred, average='weighted')))
 
-        d2v.pickle_model(clf)
+        d2v.pickle_model(clf, filepath='../models/doc2vec_naive_bayes.pkl')
         viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral', 'irrelevant'], \
                                   title='Guassian Navie Bayes with Doc2Vec')
-        plt.savefig('media/confusion_matrix/d2v_nb_confmat.png')
+        plt.savefig('../media/confusion_matrix/d2v_nb_confmat.png')
         plt.close()
 
