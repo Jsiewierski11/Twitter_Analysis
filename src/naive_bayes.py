@@ -20,9 +20,9 @@ class Naive_Bayes(object):
         self.clf = None
 
 
-    def compute_tf_and_tfidf(self, train_text):
+    def compute_tf_and_tfidf(self, train_text, ngram_range=(1, 1)):
         # Creating tf vector
-        self.count_vect = CountVectorizer(stop_words='english')
+        self.count_vect = CountVectorizer(stop_words='english', ngram_range=ngram_range)
         X_train_counts = self.count_vect.fit_transform(train_text)
 
         # Creating tf-idf vector

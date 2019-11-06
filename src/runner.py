@@ -34,7 +34,7 @@ class Runner(object):
         train_text = X_train['TweetText'].to_numpy()
         test_text = X_test['TweetText'].to_numpy()
 
-        X_train_counts, X_train_tfidf = nb.compute_tf_and_tfidf(train_text)
+        X_train_counts, X_train_tfidf = nb.compute_tf_and_tfidf(train_text, ngram_range=(1, 5))
         y_pred = nb.classify(X_train_tfidf, y_train, test_text)
         nb.print_metrics(y_test, y_pred)
         nb.pickle_model(filepath_cv='../models/count_vect_sent.pkl', filepath_clf='../models/naive_bayes_sent.pkl')
