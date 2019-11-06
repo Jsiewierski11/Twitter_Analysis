@@ -8,20 +8,51 @@
 
   <title>Tech Tweet Classifier</title>
 
+  <!--
   <meta name="description" content="The Galvanize DSI Text Classifier">
   <meta name="author" content="DSI Instructor">
+  -->
 
+  <!-- Bootstrap core CSS -->
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="../static/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/starter-template.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="../static/js/ie-emulation-modes-warning.js"></script>
 </head>
 
 <body>
 
-  <h1>Your Predicted Article Type</h1>
+  <h1 align="center">Your Predicted Tweet</h1>
+  <div align="center">
+    <span style="color: blue; font-weight: bold;">Your Tweet</span>
+    <p>{{ tweet }}</p>
+    <span style="color: blue; font-weight: bold;">Predicted Company of Topic and Sentiment</span>
+    <p>{{ pred_company }}</p>
+    <p>{{ pred_sent }}</p>
+  </div>
 
-  <span style="color: blue; font-weight: bold;">Your Article</span>
-  <p>{{ tweet }}</p>
-  <span style="color: blue; font-weight: bold;">Your Predicted Class</span>
-  <p>{{ pred_company }}</p>
-  <p>{{ pred_sent }}</p>
+  <!--NAVIGATION BAR-->
+  <nav class="navbar navbar-inverse navbar-fixed-top">    
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">Tech Tweets</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li>
+                <a href="/">Home</a>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+  </div>
+</nav>
 
 </body>
 </html>
