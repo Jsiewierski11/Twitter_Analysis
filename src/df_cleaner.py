@@ -3,6 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.utils import resample
 
+import gensim
+from gensim.utils import simple_preprocess
+from gensim.parsing.preprocessing import STOPWORDS
+
+#nltk
+from nltk.stem import WordNetLemmatizer, SnowballStemmer
+from nltk.stem.porter import *
+import nltk
+
+
 class DF_Cleaner(object):
     def __init__(self):
         pass
@@ -59,3 +69,41 @@ class DF_Cleaner(object):
         dfs.append(minority_df)
         df_balanced = pd.concat(dfs)
         return df_balanced
+
+
+    def wc_corpus(self, doc_array):
+        y = np.array([y for xi in doc_array for y in xi])
+        unique, counts = np.unique(y, return_counts=True)
+        return dict(zip(unique, counts))
+
+
+    def preprocess(self, text,  min_len=2, max_len=240):
+        result = []
+        stopwords = STOPWORDS.copy()
+        stopwords = set(stopwords)
+        spanish = self._get_spanish_stopwords()
+        stopwords.update(spanish)
+        stopwords.update(['http', 'fuck', 'rt'])
+
+        for token in gensim.utils.simple_preprocess(text, min_len=min_len, max_len=max_len):
+            if token not in stopwords:
+                result.append(self._lemmatize_stemming(token))
+        return result
+
+
+    def _lemmatize_stemming(self, text):
+        stemmer = SnowballStemmer('english')
+        return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+
+
+    def _get_spanish_stopwords(self):
+        x = [line.rstrip() for line in open('stop_words/spanish.txt')]
+        return set(x)
+
+    def doc_array_to_str(self, doc_array):
+        result = ''
+        for doc in doc_array: 
+            result += ' '.join([word for word in doc]) 
+            result += ' '
+        result = result[:-1]
+        return result

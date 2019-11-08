@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 
 # Plotting tools
@@ -32,12 +32,12 @@ class Visualizer(object):
         plt.close()
 
 
-    def plot_wc(self, wc_dict, n=20, filepath='media/tf.png'):
+    def plot_wc(self, wc_dict, n=20, filepath='media/tf/tf.png', title="Top 20 Most Frequent Words in the Corpus"):
         wc = self._sort_wc(wc_dict)
         wc = wc[:n]
         fig, ax = plt.subplots(figsize=(15, 10))
         plt.bar(wc.index, wc[0], color='g')
-        plt.title("Top 10 Most Frequent Words in the Corpus", fontsize=14)
+        plt.title(title, fontsize=14)
         plt.xlabel('Words', fontsize=14)
         plt.ylabel('Term Frequency', fontsize=14)
         plt.xticks(rotation=90)
@@ -69,6 +69,19 @@ class Visualizer(object):
         plt.xlabel('Predefined Topics', fontsize=14)
         plt.ylabel('Number of Tweets', fontsize=14)
         plt.savefig('media/categories_bar.png')
+
+
+    def plot_sentiments_bar(self, filepath='../media/sentiments/sentiments_bar.png'):
+        sentiment_values = [519, 572, 2333, 1689]
+        sentiment_labels = ['Positive', 'Negative', 'Neutral', 'Irrelevant']
+
+        fig, ax = plt.subplots(figsize=(10, 10))
+        plt.bar(sentiment_labels, sentiment_values, color=['green', 'red', 'gray', 'cyan'])
+        plt.title('Number of Tweets for Each Sentiment', fontsize=14)
+        plt.xlabel('Sentiments', fontsize=14)
+        plt.ylabel('Number of Tweets', fontsize=14)
+        plt.savefig(filepath)
+        plt.close()
 
 
     def plot_categories_pie(self):
@@ -218,6 +231,49 @@ class Visualizer(object):
                         color="white" if cm[i, j] > thresh else "black")
         fig.tight_layout()
         return ax
+
+
+    #Define the word cloud function with a max of 200 words
+    '''
+    Code below is taken from this Kaggle project:
+    https://www.kaggle.com/spurryag/beginner-attempt-at-nlp-workflow
+    That user sourced the code from here:
+    https://www.kaggle.com/sudalairajkumar/simple-exploration-notebook-qiqc
+    '''
+    def plot_wordcloud(self, text, mask=None, max_words=200, max_font_size=100, figure_size=(24.0,16.0), 
+                    title = None, title_size=40, image_color=False, filepath=None):
+        
+        # Preprocessing was already done before so no need to take out stop words
+        # stopwords = set(STOPWORDS)
+        # #define additional stop words that are not contained in the dictionary
+        # more_stopwords = {'one', 'br', 'Po', 'th', 'sayi', 'fo', 'Unknown', 'used'}
+        # stopwords = stopwords.union(more_stopwords)
+        #Generate the word cloud
+        wordcloud = WordCloud(background_color='black',
+                        # stopwords = stopwords,
+                        max_words = max_words,
+                        max_font_size = max_font_size, 
+                        random_state = 42,
+                        width=800, 
+                        height=400,
+                        mask = mask)
+        wordcloud.generate(str(text))
+        #set the plot parameters
+        plt.figure(figsize=figure_size)
+        if image_color:
+            image_colors = ImageColorGenerator(mask);
+            plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear");
+            plt.title(title, fontdict={'size': title_size,  
+                                    'verticalalignment': 'bottom'})
+        else:
+            plt.imshow(wordcloud);
+            plt.title(title, fontdict={'size': title_size, 'color': 'black', 
+                                    'verticalalignment': 'bottom'})
+        plt.axis('off');
+        plt.tight_layout()
+        plt.savefig(filepath)
+        plt.close()
+
    
     '''
     Protected Methods

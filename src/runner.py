@@ -36,12 +36,20 @@ class Runner(object):
 
         X_train_counts, X_train_tfidf = nb.compute_tf_and_tfidf(train_text, ngram_range=(1, 5))
         y_pred = nb.classify(X_train_tfidf, y_train, test_text)
+
+        # logreg = LogisticRegression(n_jobs=1, C=1e5)
+        # logreg.fit(X_train_tfidf, y_train)
+        # y_pred = logreg.predict(test_text)
+        # print('Testing accuracy %s' % accuracy_score(y_test, y_pred))
+        # print('Testing F1 score: {}'.format(f1_score(y_test, y_pred, average='weighted')))
+
         nb.print_metrics(y_test, y_pred)
         nb.pickle_model(filepath_cv='../models/count_vect_sent.pkl', filepath_clf='../models/naive_bayes_sent.pkl')
         viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral'], \
                                   title='Multinomial Naive Bayes with TF-IDF')
         plt.savefig('../media/confusion_matrix/tfidf_nb_confmat_sentiment.png')
         plt.close()
+        print('\n\n')
 
     
     def run_naive_bayes_topic(self):
@@ -50,12 +58,10 @@ class Runner(object):
         viz = Visualizer()
         
         '''
-        Sentiment Classification with Naive Bayes
+        Topic Classification with Naive Bayes
         '''
         nb = Naive_Bayes()
         dfc = DF_Cleaner()
-        # pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
-        # balanced_df = dfc.balance_df([neg_df, neutral_df, irr_df], neg_df)
         y = twitter.pop('Topic')
         X_train, X_test, y_train, y_test = train_test_split(twitter, y, random_state=42)
 
@@ -70,6 +76,7 @@ class Runner(object):
                                   title='Multinomial Naive Bayes with TF-IDF')
         plt.savefig('../media/confusion_matrix/tfidf_nb_confmat_companies.png')
         plt.close()
+        print('\n\n')
 
 
     def run_doc2vec_logreg(self):
@@ -143,4 +150,34 @@ class Runner(object):
                                   title='Guassian Navie Bayes with Doc2Vec')
         plt.savefig('../media/confusion_matrix/d2v_nb_confmat.png')
         plt.close()
+
+
+    def make_plots(self):
+        print("Creating Plots of the data")
+        twitter = pd.read_csv('../data/full-corpus.csv', encoding='utf-8')
+        viz = Visualizer()
+        dfc = DF_Cleaner()
+
+        # pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
+        # apple_corpus, google_corpus, ms_corpus, twitter_corpus = dfc.get_topics_df(twitter)
+
+        processed_docs = twitter['TweetText'].map(dfc.preprocess)
+        doc_array = processed_docs.to_numpy()
+        word_counts = dfc.wc_corpus(doc_array)
+        big_string = dfc.doc_array_to_str(doc_array)
+
+        print("creating bar plot of word counts")
+        viz.plot_wc(word_counts, filepath='../media/tf/tf_whole_corpus.png', title='20 Most Common Words in Corpus')
+
+        print("creating word cloud of corpus")
+        viz.plot_wordcloud(big_string, title="All Tweets", filepath="../media/tf/word_cloud_all_tweets.png")
+
+        print("creating bar plot of sentiments")
+        viz.plot_sentiments_bar()
+        print('\n\n')
+
+
+
+
+
 
