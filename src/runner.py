@@ -37,12 +37,6 @@ class Runner(object):
         X_train_counts, X_train_tfidf = nb.compute_tf_and_tfidf(train_text, ngram_range=(1, 5))
         y_pred = nb.classify(X_train_tfidf, y_train, test_text)
 
-        # logreg = LogisticRegression(n_jobs=1, C=1e5)
-        # logreg.fit(X_train_tfidf, y_train)
-        # y_pred = logreg.predict(test_text)
-        # print('Testing accuracy %s' % accuracy_score(y_test, y_pred))
-        # print('Testing F1 score: {}'.format(f1_score(y_test, y_pred, average='weighted')))
-
         nb.print_metrics(y_test, y_pred)
         nb.pickle_model(filepath_cv='../models/count_vect_sent.pkl', filepath_clf='../models/naive_bayes_sent.pkl')
         viz.plot_confusion_matrix(y_test, y_pred, classes=['positive', 'negative', 'neutral'], \
@@ -158,22 +152,52 @@ class Runner(object):
         viz = Visualizer()
         dfc = DF_Cleaner()
 
-        # pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
-        # apple_corpus, google_corpus, ms_corpus, twitter_corpus = dfc.get_topics_df(twitter)
+        pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
+        apple_corpus, google_corpus, ms_corpus, twitter_corpus = dfc.get_topics_df(twitter)
 
+
+        # Remove stop words and perform lemmatization to create Pandas Series
         processed_docs = twitter['TweetText'].map(dfc.preprocess)
+        processed_pos = pos_df['TweetText'].map(dfc.preprocess)
+        processed_neg = neg_df['TweetText'].map(dfc.preprocess)
+        processed_neutral = neutral_df['TweetText'].map(dfc.preprocess)
+
+        # Converting Pandas Series to numpy array
         doc_array = processed_docs.to_numpy()
+        pos_doc = processed_pos.to_numpy()
+        neg_doc = processed_neg.to_numpy()
+        neutral_doc = processed_neutral.to_numpy()
+
+        
+        # Creating dictionary of word counts
         word_counts = dfc.wc_corpus(doc_array)
+        pos_wordcounts = dfc.wc_corpus(pos_doc)
+        neg_wordcounts = dfc.wc_corpus(neg_doc)
+        neutral_wordcounts = dfc.wc_corpus(neutral_doc)
+
+        
+        # Converting Corpus numpy array to one giant string for word cloud
         big_string = dfc.doc_array_to_str(doc_array)
+        pos_string = dfc.doc_array_to_str(pos_doc)
+        neg_string = dfc.doc_array_to_str(neg_doc)
+        neutral_string = dfc.doc_array_to_str(neutral_doc)
+
+
 
         print("creating bar plot of word counts")
         viz.plot_wc(word_counts, filepath='../media/tf/tf_whole_corpus.png', title='20 Most Common Words in Corpus')
 
-        print("creating word cloud of corpus")
+        print("creating word clouds")
         viz.plot_wordcloud(big_string, title="All Tweets", filepath="../media/tf/word_cloud_all_tweets.png")
+        viz.plot_wordcloud(pos_string, title="Positive Tweets", filepath="../media/tf/word_cloud_pos_tweets.png")
+        viz.plot_wordcloud(neg_string, title="Negative Tweets", filepath="../media/tf/word_cloud_neg_tweets.png")
+        viz.plot_wordcloud(neutral_string, title="Neutral Tweets", filepath="../media/tf/word_cloud_neutral_tweets.png")
 
         print("creating bar plot of sentiments")
         viz.plot_sentiments_bar()
+
+        print("creating bar plot of categories")
+        viz.plot_categories_bar()
         print('\n\n')
 
 

@@ -53,7 +53,7 @@ class Visualizer(object):
         pyLDAvis.save_html(vis, filepath)
 
 
-    def plot_categories_bar(self):
+    def plot_categories_bar(self, filepath='../media/categories/categories_bar.png'):
         '''
             - 1142 documents labeled as having a topic of Apple
             - 1317 documents labeled as having a topic of Google
@@ -63,24 +63,29 @@ class Visualizer(object):
         topic_values = [1142, 1317, 1364, 1290]
         topic_labels = ['Apple', 'Google', 'Microsoft', 'Twitter']
 
-        fig, ax = plt.subplots(figsize=(10, 10))
-        plt.bar(topic_labels, topic_values, color=['grey', 'yellow', 'blue', 'cyan'])
-        plt.title('Number of Tweets in Each Predefined Topic', fontsize=14)
-        plt.xlabel('Predefined Topics', fontsize=14)
-        plt.ylabel('Number of Tweets', fontsize=14)
-        plt.savefig('media/categories_bar.png')
+        fig, ax = plt.subplots(figsize=(15, 15))
+        plt.bar(topic_labels, topic_values)
+        plt.title('Number of Tweets in Each Predefined Topic', fontsize=35)
+        plt.xlabel('Predefined Topics', fontsize=40)
+        plt.ylabel('Number of Tweets', fontsize=40)
+        plt.xticks(size = 30)
+        plt.yticks(size = 30)
+        plt.savefig(filepath, dpi=300)
+        plt.close()
 
 
     def plot_sentiments_bar(self, filepath='../media/sentiments/sentiments_bar.png'):
         sentiment_values = [519, 572, 2333, 1689]
         sentiment_labels = ['Positive', 'Negative', 'Neutral', 'Irrelevant']
 
-        fig, ax = plt.subplots(figsize=(10, 10))
-        plt.bar(sentiment_labels, sentiment_values, color=['green', 'red', 'gray', 'cyan'])
-        plt.title('Number of Tweets for Each Sentiment', fontsize=14)
-        plt.xlabel('Sentiments', fontsize=14)
-        plt.ylabel('Number of Tweets', fontsize=14)
-        plt.savefig(filepath)
+        fig, ax = plt.subplots(figsize=(15, 15))
+        plt.bar(sentiment_labels, sentiment_values, color=['green', 'red', 'gray', 'black'])
+        plt.title('Number of Tweets for Each Sentiment', fontsize=35)
+        plt.xlabel('Sentiments', fontsize=40)
+        plt.ylabel('Number of Tweets', fontsize=40)
+        plt.xticks(size = 30)
+        plt.yticks(size = 30)
+        plt.savefig(filepath, dpi=300)
         plt.close()
 
 
@@ -271,7 +276,7 @@ class Visualizer(object):
                                     'verticalalignment': 'bottom'})
         plt.axis('off');
         plt.tight_layout()
-        plt.savefig(filepath)
+        plt.savefig(filepath, dsi=300)
         plt.close()
 
    
