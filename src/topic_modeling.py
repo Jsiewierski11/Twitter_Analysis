@@ -16,7 +16,6 @@ from src.runner import Runner
 #        project that needs to be udated to current code base and needs to be made 
 #        more modular.
 
-
 def run_lda(corpus, num_topics=4, custom_stopwords=False, filepath_wc=None, make_vis=True, filepath_lda=None):
     '''
     Running LDA with Gensim

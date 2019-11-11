@@ -153,20 +153,29 @@ class Runner(object):
         dfc = DF_Cleaner()
 
         pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
-        apple_corpus, google_corpus, ms_corpus, twitter_corpus = dfc.get_topics_df(twitter)
+        apple_df, google_df, ms_df, twitter_df = dfc.get_topics_df(twitter)
 
 
         # Remove stop words and perform lemmatization to create Pandas Series
-        processed_docs = twitter['TweetText'].map(dfc.preprocess)
-        processed_pos = pos_df['TweetText'].map(dfc.preprocess)
-        processed_neg = neg_df['TweetText'].map(dfc.preprocess)
-        processed_neutral = neutral_df['TweetText'].map(dfc.preprocess)
+        processed_docs = twitter['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=True))
+        processed_pos = pos_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=True))
+        processed_neg = neg_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=True))
+        processed_neutral = neutral_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=True))
+        processed_apple = apple_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=False))
+        processed_google = google_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=False))
+        processed_ms = ms_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=False))
+        processed_twitter = twitter_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=False))
+
 
         # Converting Pandas Series to numpy array
         doc_array = processed_docs.to_numpy()
         pos_doc = processed_pos.to_numpy()
         neg_doc = processed_neg.to_numpy()
         neutral_doc = processed_neutral.to_numpy()
+        apple_doc = processed_apple.to_numpy()
+        google_doc = processed_google.to_numpy()
+        ms_doc = processed_ms.to_numpy()
+        twitter_doc = processed_twitter.to_numpy()
 
         
         # Creating dictionary of word counts
@@ -181,7 +190,10 @@ class Runner(object):
         pos_string = dfc.doc_array_to_str(pos_doc)
         neg_string = dfc.doc_array_to_str(neg_doc)
         neutral_string = dfc.doc_array_to_str(neutral_doc)
-
+        apple_string = dfc.doc_array_to_str(apple_doc)
+        google_string = dfc.doc_array_to_str(google_doc)
+        ms_string = dfc.doc_array_to_str(ms_doc)
+        twitter_string = dfc.doc_array_to_str(twitter_doc)
 
 
         print("creating bar plot of word counts")
@@ -192,6 +204,10 @@ class Runner(object):
         viz.plot_wordcloud(pos_string, title="Positive Tweets", filepath="../media/tf/word_cloud_pos_tweets.png")
         viz.plot_wordcloud(neg_string, title="Negative Tweets", filepath="../media/tf/word_cloud_neg_tweets.png")
         viz.plot_wordcloud(neutral_string, title="Neutral Tweets", filepath="../media/tf/word_cloud_neutral_tweets.png")
+        viz.plot_wordcloud(apple_string, title="Apple Tweets", filepath="../media/tf/word_cloud_apple_tweets.png")
+        viz.plot_wordcloud(google_string, title="Google Tweets", filepath="../media/tf/word_cloud_google_tweets.png")
+        viz.plot_wordcloud(ms_string, title="Microsoft Tweets", filepath="../media/tf/word_cloud_ms_tweets.png")
+        viz.plot_wordcloud(twitter_string, title="Twitter Tweets", filepath="../media/tf/word_cloud_twitter_tweets.png")
 
         print("creating bar plot of sentiments")
         viz.plot_sentiments_bar()

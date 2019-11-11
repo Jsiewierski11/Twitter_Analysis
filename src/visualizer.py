@@ -246,7 +246,7 @@ class Visualizer(object):
     https://www.kaggle.com/sudalairajkumar/simple-exploration-notebook-qiqc
     '''
     def plot_wordcloud(self, text, mask=None, max_words=200, max_font_size=100, figure_size=(24.0,16.0), 
-                    title = None, title_size=40, image_color=False, filepath=None):
+                    title = None, title_size=100, image_color=False, filepath=None):
         
         # Preprocessing was already done before so no need to take out stop words
         # stopwords = set(STOPWORDS)

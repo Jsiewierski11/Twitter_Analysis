@@ -77,13 +77,15 @@ class DF_Cleaner(object):
         return dict(zip(unique, counts))
 
 
-    def preprocess(self, text,  min_len=2, max_len=240):
+    def preprocess(self, text,  min_len=2, max_len=240, remove_common=False):
         result = []
         stopwords = STOPWORDS.copy()
         stopwords = set(stopwords)
         spanish = self._get_spanish_stopwords()
         stopwords.update(spanish)
         stopwords.update(['http', 'fuck', 'rt'])
+        if remove_common:
+            stopwords.update(['google', 'apple', 'twitter', 'microsoft', 'iphone', 'android', ])
 
         for token in gensim.utils.simple_preprocess(text, min_len=min_len, max_len=max_len):
             if token not in stopwords:
