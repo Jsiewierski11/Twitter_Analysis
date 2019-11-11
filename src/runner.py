@@ -12,12 +12,13 @@ from src.df_cleaner import DF_Cleaner
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.naive_bayes import MultinomialNB, GaussianNB
 
-'''
-This class is used to run various aspects of the project.
-Each function was written so it could be run independantely and still produce the desired results.
-'''
 
 class Runner(object):
+    '''
+    This class is used to run various aspects of the project.
+    Each function was written so it could be run independantely and still produce the desired results.
+    '''
+    
     def __init__(self):
         pass
 

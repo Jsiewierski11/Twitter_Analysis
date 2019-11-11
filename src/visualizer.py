@@ -10,7 +10,9 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import average_precision_score, accuracy_score, confusion_matrix, classification_report
 from sklearn.utils.multiclass import unique_labels
 
+
 class Visualizer(object):
+    '''This class is used to handle all creations of different images and visualizations for the models and the data.'''
 
     def __init__(self):
         pass
@@ -246,7 +248,7 @@ class Visualizer(object):
     '''
     def plot_wordcloud(self, text, mask=None, max_words=200, max_font_size=100, figure_size=(24.0,16.0), 
                     title = None, title_size=100, image_color=False, filepath=None):
-                    
+
         #Generate the word cloud
         wordcloud = WordCloud(background_color='black',
                         # stopwords = stopwords,
