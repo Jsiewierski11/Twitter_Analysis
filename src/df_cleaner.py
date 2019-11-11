@@ -85,7 +85,7 @@ class DF_Cleaner(object):
         stopwords.update(spanish)
         stopwords.update(['http', 'fuck', 'rt'])
         if remove_common:
-            stopwords.update(['google', 'apple', 'twitter', 'microsoft', 'iphone', 'android', ])
+            stopwords.update(['google', 'apple', 'twitter', 'microsoft'])
 
         for token in gensim.utils.simple_preprocess(text, min_len=min_len, max_len=max_len):
             if token not in stopwords:

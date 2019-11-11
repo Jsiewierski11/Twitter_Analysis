@@ -12,20 +12,36 @@ from src.df_cleaner import DF_Cleaner
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.naive_bayes import MultinomialNB, GaussianNB
 
+'''
+This class is used to run various aspects of the project.
+Each function was written so it could be run independantely and still produce the desired results.
+'''
+
 class Runner(object):
     def __init__(self):
         pass
 
     def run_naive_bayes_sentiment(self):
+        '''
+        This function takes no inputs and returns nothing.
+        Function will:
+            - Load data to pandas dataframe.
+            - Balance the corpus so that there is an equal amount of tweets for each sentiment and drop tweets labeled with irrelevant sentiment.
+            - Perform train test split on the dataset.
+            - Perform preprocessing on the text and create TF-IDF array of the corpus.
+            - Train Naive Bayes model for sentiment classification on TF-IDF and save as a .pkl file.
+            - Print performance metrics to the console and save a .png file of Confusion Matrix.
+        '''
+
         print("Running Naive Bayes Classification with TF-IDF")
         twitter = pd.read_csv('../data/full-corpus.csv', encoding='utf-8')
         viz = Visualizer()
+        nb = Naive_Bayes()
+        dfc = DF_Cleaner()
         
         '''
         Sentiment Classification with Naive Bayes
         '''
-        nb = Naive_Bayes()
-        dfc = DF_Cleaner()
         pos_df, neg_df, neutral_df, irr_df = dfc.get_sentiment_df(twitter)
         balanced_df = dfc.balance_df([neg_df, neutral_df], pos_df)
         y = balanced_df.pop('Sentiment')
@@ -47,15 +63,25 @@ class Runner(object):
 
     
     def run_naive_bayes_topic(self):
+        '''
+        This function takes no inputs and returns nothing.
+        Function will:
+            - Load the corpus to a pandas dataframe.
+            - Perform train test split on the dataset.
+            - Perform preprocessing on the text and create TF-IDF array of the corpus.
+            - Train Naive Bayes model for topic classification on TF-IDF and save as a .pkl file to the models directory.
+            - Print performance metrics to the console and save a .png file of Confusion Matrix.
+        '''
+
         print("Running Naive Bayes Classification with TF-IDF")
         twitter = pd.read_csv('../data/full-corpus.csv', encoding='utf-8')
         viz = Visualizer()
+        nb = Naive_Bayes()
+        dfc = DF_Cleaner()
         
         '''
         Topic Classification with Naive Bayes
         '''
-        nb = Naive_Bayes()
-        dfc = DF_Cleaner()
         y = twitter.pop('Topic')
         X_train, X_test, y_train, y_test = train_test_split(twitter, y, random_state=42)
 
@@ -74,6 +100,17 @@ class Runner(object):
 
 
     def run_doc2vec_logreg(self):
+        '''
+        This function takes no inputs and returns nothing.
+        Function will:
+            - Load data to pandas dataframe.
+            - Balance the corpus so that there is an equal amount of tweets for each sentiment and drop tweets labeled with irrelevant sentiment.
+            - Perform train test split on the dataset.
+            - Perform preprocessing on the text and create Doc2Vec array of the corpus.
+            - Train Logistic Regression model for sentiment classification on Doc2Vec and save as a .pkl file to the models directory.
+            - Print performance metrics to the console and save a .png file of Confusion Matrix.
+        '''
+
         print("Running Logistic Regression Classification with Doc2Vec")
         twitter = pd.read_csv('../data/full-corpus.csv', encoding='utf-8')
         dfc = DF_Cleaner()
@@ -108,6 +145,17 @@ class Runner(object):
         plt.close()
 
     def run_doc2vec_naivebayes(self):
+        '''
+        This function takes no inputs and returns nothing.
+        Function will:
+            - Load data to pandas dataframe.
+            - Balance the corpus so that there is an equal amount of tweets for each sentiment and drop tweets labeled with irrelevant sentiment.
+            - Perform train test split on the dataset.
+            - Perform preprocessing on the text and create Doc2Vec array of the corpus.
+            - Train Naive Bayes model for sentiment classification on Doc2Vec and save as a .pkl file to the models directory.
+            - Print performance metrics to the console and save a .png file of Confusion Matrix.
+        '''
+
         print("Running Naive Bayes Classification with Doc2Vec")
         twitter = pd.read_csv('../data/full-corpus.csv', encoding='utf-8')
         dfc = DF_Cleaner()
@@ -128,9 +176,6 @@ class Runner(object):
 
         y_train, X_train = d2v.vec_for_learning(train_tagged)
         y_test, X_test = d2v.vec_for_learning(test_tagged)
-        # logreg = LogisticRegression(n_jobs=1, C=1e5)
-        # logreg.fit(X_train, y_train)
-        # y_pred = logreg.predict(X_test)
 
         clf = GaussianNB()
         clf.fit(X_train, y_train)
@@ -147,6 +192,17 @@ class Runner(object):
 
 
     def make_plots(self):
+        '''
+        This function takes no inputs and returns nothing.
+        Function will:
+            - Load data to pandas dataframe.
+            - Create bar chart of 20 most common words in the corpus.
+            - Create word clouds of words relating to tweets for all the different sentiments, all topics, and the whole corpus.
+            - Create bar chart of the number of tweets labeled with each sentiment.
+            - Create bar chart of the number of tweets labeled with each topic.
+            - All plots produced are saved as .png files to the media directory in their appropriate subdirectories.
+        '''
+
         print("Creating Plots of the data")
         twitter = pd.read_csv('../data/full-corpus.csv', encoding='utf-8')
         viz = Visualizer()
@@ -215,9 +271,3 @@ class Runner(object):
         print("creating bar plot of categories")
         viz.plot_categories_bar()
         print('\n\n')
-
-
-
-
-
-

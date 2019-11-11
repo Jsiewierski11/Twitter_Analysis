@@ -238,7 +238,6 @@ class Visualizer(object):
         return ax
 
 
-    #Define the word cloud function with a max of 200 words
     '''
     Code below is taken from this Kaggle project:
     https://www.kaggle.com/spurryag/beginner-attempt-at-nlp-workflow
@@ -247,12 +246,7 @@ class Visualizer(object):
     '''
     def plot_wordcloud(self, text, mask=None, max_words=200, max_font_size=100, figure_size=(24.0,16.0), 
                     title = None, title_size=100, image_color=False, filepath=None):
-        
-        # Preprocessing was already done before so no need to take out stop words
-        # stopwords = set(STOPWORDS)
-        # #define additional stop words that are not contained in the dictionary
-        # more_stopwords = {'one', 'br', 'Po', 'th', 'sayi', 'fo', 'Unknown', 'used'}
-        # stopwords = stopwords.union(more_stopwords)
+                    
         #Generate the word cloud
         wordcloud = WordCloud(background_color='black',
                         # stopwords = stopwords,
