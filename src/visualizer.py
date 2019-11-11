@@ -21,6 +21,20 @@ class Visualizer(object):
     def plot_coherence(self, model_list, c_v_vals, start=2, stop=30, step=3, \
                        filepath='media/coherence_viz.png', color='blue', \
                        title="Coherence score using c_v Metrics vs Number of Topics"):
+        '''
+        Funtion to plot coherence score vs number of latent topics.
+        Useful for doing topic modeling.
+
+        INPUT:
+            model_list (list): List of lda models. Can be created from the output of compute_coherence_values() in gensim_lda class.
+            c_v_vals (list): List of coherence values that corresponds with the number of topics in model_list. 
+                             Can get from the output of compute_coherence_values() in gensim_lda class.
+            filepath (str): String of the file location to pass to plt.savefig()
+            color (str): string of what the color for the line should be on the plot.
+            title (str): Title for the plot.     
+        OUTPUT: 
+            None       
+        '''
 
         # Show graph
         x = range(start, stop, step)
@@ -35,6 +49,18 @@ class Visualizer(object):
 
 
     def plot_wc(self, wc_dict, n=20, filepath='media/tf/tf.png', title="Top 20 Most Frequent Words in the Corpus"):
+        '''
+        Function to plot a bar chart of top n words in the dictionary.
+
+        INPUT:
+            wc_dict (dict): A dictionary with with words (str) as the keys and the number of occurences (int) in a give corpus.
+            n (int): Number indicating how many words to display on the bar chart.
+            filepath (str): String of the file location to pass to plt.savefig().
+            title (str): Title for the plot.     
+        OUTPUT: 
+            None       
+        '''
+
         wc = self._sort_wc(wc_dict)
         wc = wc[:n]
         fig, ax = plt.subplots(figsize=(15, 10))
@@ -50,18 +76,28 @@ class Visualizer(object):
     def make_pyLDAvis(self, model, bow, id2word, filepath='media/LDA_topics.html'):
         '''
         Saves a pyLDAvis visualization to the media file
+
+        INPUT:
+            model: A trained Gensim LDA model.
+            bow (list): List of lists that are in bag of words style. (i.e. [['hi', 'tom'], ['hello', 'susan']])
+            filepath (str): String of the file location to pass to pyLDAvis.save_html().
+        OUTPUT:
+            None
         '''
+
         vis = pyLDAvis.gensim.prepare(model, bow, id2word, mds='mmds')
         pyLDAvis.save_html(vis, filepath)
 
 
     def plot_categories_bar(self, filepath='../media/categories/categories_bar.png'):
         '''
-            - 1142 documents labeled as having a topic of Apple
-            - 1317 documents labeled as having a topic of Google
-            - 1364 documents labeled as having a topic of Microsoft
-            - 1290 documents labeled as having a topic of Twitter
+        Functions to create bar graph of number of tweets labeled as each category.
+        INPUT:
+            filepath (str): String of the file location to pass to plt.savefig().
+        OUTPUT:
+            None
         '''
+
         topic_values = [1142, 1317, 1364, 1290]
         topic_labels = ['Apple', 'Google', 'Microsoft', 'Twitter']
 
@@ -77,6 +113,14 @@ class Visualizer(object):
 
 
     def plot_sentiments_bar(self, filepath='../media/sentiments/sentiments_bar.png'):
+        '''
+        Functions to create bar graph of number of tweets labeled as each sentiment.
+        INPUT:
+            filepath (str): String of the file location to pass to plt.savefig().
+        OUTPUT:
+            None
+        '''
+
         sentiment_values = [519, 572, 2333, 1689]
         sentiment_labels = ['Positive', 'Negative', 'Neutral', 'Irrelevant']
 
@@ -93,11 +137,13 @@ class Visualizer(object):
 
     def plot_categories_pie(self):
         '''
-            - 1142 documents labeled as having a topic of Apple
-            - 1317 documents labeled as having a topic of Google
-            - 1364 documents labeled as having a topic of Microsoft
-            - 1290 documents labeled as having a topic of Twitter
+        Functions to create pie chart of number of tweets labeled as each category.
+        INPUT:
+            filepath (str): String of the file location to pass to plt.savefig().
+        OUTPUT:
+            None
         '''
+
         topic_values = [1142, 1317, 1364, 1290]
         topic_labels = ['1142 Tweets', '1317 Tweets', '1364 Tweets', '1290 Tweets']
         legend_labels = ['Apple', 'Google', 'Microsoft', 'Twitter']
