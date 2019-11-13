@@ -30,6 +30,7 @@ Another thing to take note of is that we see some Spanish words pop up in the to
 ## Notes about the data
 
 
+
 | Type of Tweets                   | Number of Tweets |
 | -------------------------------- | --------------   |
 | All Tweets                       | 5113             |
@@ -41,6 +42,8 @@ Another thing to take note of is that we see some Spanish words pop up in the to
 | Tweets about Google              | 1317             |
 | Tweets about Microsoft           | 1364             |
 | Tweets about Twitter             | 1290             |
+
+
 
 | Sentiment Distribution                                      | Topic Distribution                                           |
 |------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -60,6 +63,8 @@ For the most part these sentiment distributions seemed to follow the same trend 
 - Removing stop words (i.e. the, and, a, etc.)
 - Perform Lemmatization which is an algorithm that will distill words down to their root. (i.e. running becomes run)
 - Getting Inverse Document Frequency of each term in the corpus.
+  - Formula for the TF-IDF is described by the image below.
+    [TF-IDF formula]('media/other/tfidf_formula.png')
 - For sentiment classification I used an n-gram range of 1-5.
 - I created 2 different classification models.
 - One for classifying whether the tweet was talking about either Apple, Google, Microsoft, or Twitter.
@@ -70,5 +75,5 @@ For the most part these sentiment distributions seemed to follow the same trend 
 Classification based on the topic of the tweet was far more accurate than the classification of sentiment with scores of 96% and 68% respectively. This is most likely due to the fact that the language regarding the companies is very different. For example if a tweet is talking about an Iphone, it is almost certain that that particular tweet is talking about Apple. Sentiment can be a bit more subtle and can be a challenge to differentiate even for humans. I also attempted to use doc2vec to featurize the text as opposted to TF-IDF with underwhelming results. This is because doc2vec creates a paragraph vector and requires documents to contain a lot of text. The 244-character limit for tweets was too small to fully utilize doc2vec.
 
 ## Next Steps
-• 68% can be improved upon if featurization is done in a different manner or possibly using a different classification model.
-• No matter the topic of the tweet it will get classified as either talking about one of the four companies. New data is required to make an “other” class.
+- 68% can be improved upon if featurization is done in a different manner or possibly using a different classification model.
+- No matter the topic of the tweet it will get classified as either talking about one of the four companies. New data is required to make an “other” class.
