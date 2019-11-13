@@ -77,7 +77,8 @@ For the most part these sentiment distributions seemed to follow the same trend 
 
 
 # Results
-
+| Accuracy | F1 Score |
+| -------- | -------- |
 
 
 # Conclusion
