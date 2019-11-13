@@ -24,8 +24,6 @@ To get a general feel of the data the first thing I wanted to do was get a word 
 Not surprisingly we see that Apple, Google, Microsoft, and Twitter and among the most popular words in the corpus, which makes sense since all of the tweets are talking about one of those companies. But none of those occur as much as http. This is due to the Stemming that was used when gathering the word count. Anytime there was a hyper link in the tweet everything in the url would get dropped from the stemmer, except the http. Seeing that there is almost 2500 http occurrences and 5113 tweets, there is almost half as many links as there are tweets. This seems to indicate that when talking about these companies that people are often sharing links to news articles about the company or maybe images about the companies products. Take for example this tweet.
 
 ![Example tweet](media/other/example_tweet.png)
-> 'Amazing new @Apple iOs 5 feature.  http://t.co/jatFVfpM'
-
 
 Another thing to take note of is that we see some Spanish words pop up in the top 20 words. This presented an additional challenge when doing the preprocessing as I had to make an additional list of Spanish stopwords to add to Gensims built in list of stop words.  
 
@@ -57,6 +55,16 @@ Unsurprisingly and unfortantely the amount of tweets that had neither a positive
 | ![Pie Chart](media/sentiments/twitter_sentiments.png) | ![Pie Chart](media/sentiments/apple_sentiments.png)     |
 
 For the most part these sentiment distributions seemed to follow the same trend as the whole corpus, with the exception of Apple having a rather large portion of tweets having a negative sentiment.
+
+# The Process
+- Removing stop words (i.e. the, and, a, etc.)
+- Perform Lemmatization which is an algorithm that will distill words down to their root. (i.e. running becomes run)
+- Getting Inverse Document Frequency of each term in the corpus.
+- For sentiment classification I used an n-gram range of 1-5.
+- I created 2 different classification models.
+- One for classifying whether the tweet was talking about either Apple, Google, Microsoft, or Twitter.
+- One for determining if the tweet had a sentiment of either Positive, Negative, or Neutral.
+- Both models used Sklearn’s Multinomial Naïve Bayes to classify tweets.
 
 # Conclusion
 Classification based on the topic of the tweet was far more accurate than the classification of sentiment with scores of 96% and 68% respectively. This is most likely due to the fact that the language regarding the companies is very different. For example if a tweet is talking about an Iphone, it is almost certain that that particular tweet is talking about Apple. Sentiment can be a bit more subtle and can be a challenge to differentiate even for humans. I also attempted to use doc2vec to featurize the text as opposted to TF-IDF with underwhelming results. This is because doc2vec creates a paragraph vector and requires documents to contain a lot of text. The 244-character limit for tweets was too small to fully utilize doc2vec.
