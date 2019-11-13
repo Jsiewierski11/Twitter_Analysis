@@ -31,6 +31,16 @@ def root():
     return render_template('home.html')
 
 
+@app.route('/model_results')
+def model_results():
+    return render_template('model_results.html')
+
+
+@app.route('/wordclouds')
+def wordclouds():
+    return render_template('wordclouds.html')
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     """
