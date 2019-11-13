@@ -63,9 +63,13 @@ For the most part these sentiment distributions seemed to follow the same trend 
 - Removing stop words (i.e. the, and, a, etc.)
 - Perform Lemmatization which is an algorithm that will distill words down to their root. (i.e. running becomes run)
 - Getting Inverse Document Frequency of each term in the corpus.
-  - Formula for the TF-IDF is described by the image below.
-    [TF-IDF formula]('media/other/tfidf_formula.png')
+  - The formula for the TF-IDF is described by the image below.
+  
+    ![TF-IDF formula](media/other/tfidf_formula.png)
 - For sentiment classification I used an n-gram range of 1-5.
+  - Example of differnt N-Grams
+  
+  ![N-Gram Example](media/other/n_grams.png)
 - I created 2 different classification models.
 - One for classifying whether the tweet was talking about either Apple, Google, Microsoft, or Twitter.
 - One for determining if the tweet had a sentiment of either Positive, Negative, or Neutral.
