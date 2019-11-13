@@ -23,6 +23,7 @@ To get a general feel of the data the first thing I wanted to do was get a word 
 
 Not surprisingly we see that Apple, Google, Microsoft, and Twitter and among the most popular words in the corpus, which makes sense since all of the tweets are talking about one of those companies. But none of those occur as much as http. This is due to the Stemming that was used when gathering the word count. Anytime there was a hyper link in the tweet everything in the url would get dropped from the stemmer, except the http. Seeing that there is almost 2500 http occurrences and 5113 tweets, there is almost half as many links as there are tweets. This seems to indicate that when talking about these companies that people are often sharing links to news articles about the company or maybe images about the companies products. Take for example this tweet.
 
+![Example tweet](media/other/example_tweet.png)
 > 'Amazing new @Apple iOs 5 feature.  http://t.co/jatFVfpM'
 
 
