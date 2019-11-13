@@ -214,7 +214,7 @@ class Runner(object):
 
 
         # Remove stop words and perform lemmatization to create Pandas Series
-        processed_docs = twitter['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=True))
+        processed_docs = twitter['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=False))
         processed_pos = pos_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=True))
         processed_neg = neg_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=True))
         processed_neutral = neutral_df['TweetText'].apply(lambda x: dfc.preprocess(x, remove_common=True))

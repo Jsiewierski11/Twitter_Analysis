@@ -28,7 +28,7 @@ with open('../models/count_vect_sent.pkl', 'rb') as f:
 
 @app.route('/', methods=['GET'])
 def root():
-    return render_template('index.html')
+    return render_template('home.html')
 
 
 @app.route('/predict', methods=['POST'])
