@@ -75,6 +75,11 @@ For the most part these sentiment distributions seemed to follow the same trend 
 - One for determining if the tweet had a sentiment of either Positive, Negative, or Neutral.
 - Both models used Sklearn’s Multinomial Naïve Bayes to classify tweets.
 
+
+# Results
+
+
+
 # Conclusion
 Classification based on the topic of the tweet was far more accurate than the classification of sentiment with scores of 96% and 68% respectively. This is most likely due to the fact that the language regarding the companies is very different. For example if a tweet is talking about an Iphone, it is almost certain that that particular tweet is talking about Apple. Sentiment can be a bit more subtle and can be a challenge to differentiate even for humans. I also attempted to use doc2vec to featurize the text as opposted to TF-IDF with underwhelming results. This is because doc2vec creates a paragraph vector and requires documents to contain a lot of text. The 244-character limit for tweets was too small to fully utilize doc2vec.
 
