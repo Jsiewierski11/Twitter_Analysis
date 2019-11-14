@@ -1,6 +1,60 @@
 {% extends "base.html" %}
 {% block content %}
 
-<p>Hello World</p>
+<div class="container">
+    <p>
+        For this application I tried several different models to see what performed best in sentiment classification.
+        The first model I made for topic classification, Multinomial Naive Bayes, had an accuracy score of 96% so I decided 
+        to stick with that model for this application. <br>
+        Sentiment classification was a little tricker and I experimented with a couple different models. Below you can see the accuracy
+        and the F1 scores of the different models that I trained for this project.
+    </p>
+
+    <table>
+        <tr>
+            <th></th>
+            <th>Accuracy</th>
+            <th>F1 Score</th>
+        </tr>
+        <tr>
+            <td>Naive Bayes trained on TF-IDF for Sentiment Classification</td>
+            <td>68%</td>
+            <td>68%</td>
+        </tr>
+        <tr>
+            <td>Naive Bayes trained on TF-IDF for Topic Classification</td>
+            <td>96%</td>
+            <td>96%</td>
+        </tr>
+        <tr>
+            <td>Logistic Regression trained on Doc2Vec for Sentiment Classification</td>
+            <td>39%</td>
+            <td>39%</td>
+        </tr>
+        <tr>
+            <td>Naive Bayes trained on Doc2Vec for Sentiment Classification</td>
+            <td>35%</td>
+            <td>22%</td>
+        </tr>
+    </table>
+
+    <br>
+
+    <table>
+        <tr>
+            <th>Using TF-IDF to Featurize the Text</th>
+            <th>Using Doc2Vec to Featurize the Text</th>
+        </tr>
+        <tr>
+            <td><img src="static/img/tfidf_nb_confmat_sentiment.png" style="width:480px;height:360px;"></td>
+            <td><img src="static/img/d2v_logreg_confmat.png" style="width:480px;height:360px;"></td>
+        </tr>
+        <tr>
+            <td><img src="static/img/tfidf_nb_confmat_companies.png" style="width:480px;height:360px;"></td>
+            <td><img src="static/img/d2v_nb_confmat.png" style="width:480px;height:360px;"></td>
+        </tr>
+    </table>
+</div>
+
 
 {% endblock %}
