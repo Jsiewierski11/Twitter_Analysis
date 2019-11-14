@@ -318,7 +318,7 @@ class Visualizer(object):
                                     'verticalalignment': 'bottom'})
         plt.axis('off');
         plt.tight_layout()
-        plt.savefig(filepath, dsi=300)
+        plt.savefig(filepath, dpi=300)
         plt.close()
 
    
