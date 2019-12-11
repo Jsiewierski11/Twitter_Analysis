@@ -52,7 +52,7 @@ Another thing to take note of is that we see some Spanish words pop up in the to
 
 Unsurprisingly and unfortantely the amount of tweets that had neither a positive or negative sentiment was almost 80% of the tweets, giving me very little data to look at if I was going to do topic modeling based off sentiments. Fortunately the tweets were almost perectly divided when seperating the data by Topics. After seeing how uneven and evenly distributed the sentiments and topics were I was curious to look at how the sentiments were distributed amoungst tweets talking about each of the 4 companies.
 
-|  Sentiment Distribution of For Google and Twitter     | Sentiment Distribution of For Microsoft and Apple       |
+|  Sentiment Distribution For Google and Twitter     | Sentiment Distribution For Microsoft and Apple       |
 |------------------------------------------------------ | ------------------------------------------------------- |
 | ![Pie Chart](media/sentiments/google_sentiments.png)  | ![Pie Chart](media/sentiments/microsoft_sentiments.png) |
 | ![Pie Chart](media/sentiments/twitter_sentiments.png) | ![Pie Chart](media/sentiments/apple_sentiments.png)     |
@@ -77,9 +77,12 @@ For the most part these sentiment distributions seemed to follow the same trend 
 
 
 # Results
-| Accuracy | F1 Score |
-| -------- | -------- |
-
+| Model                                                               | Accuracy | F1 Score |
+| ------------------------------------------------------------------- | -------- | -------- |
+| Naive Bayes trained on TF-IDF for Sentiment Classification          | 68%      | 68%      |
+| Naive Bayes trained on TF-IDF for Topic Classification              | 96%      | 96%      |
+| Logistic Regression trained on Doc2Vec for Sentiment Classification | 39%      | 39%      |
+| Naive Bayes trained on Doc2Vec for Sentiment Classification         | 35%      | 22%      |
 
 # Conclusion
 Classification based on the topic of the tweet was far more accurate than the classification of sentiment with scores of 96% and 68% respectively. This is most likely due to the fact that the language regarding the companies is very different. For example if a tweet is talking about an Iphone, it is almost certain that that particular tweet is talking about Apple. Sentiment can be a bit more subtle and can be a challenge to differentiate even for humans. I also attempted to use doc2vec to featurize the text as opposted to TF-IDF with underwhelming results. This is because doc2vec creates a paragraph vector and requires documents to contain a lot of text. The 244-character limit for tweets was too small to fully utilize doc2vec.
