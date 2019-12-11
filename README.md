@@ -7,17 +7,17 @@ challenge. This project was an attempt to tackle that challenge.
 
 # EDA
 
-But before I could get into any of the fun topic modeling and analysis some EDA was in order. As per my usual work flow when working with and cleaning data I read the csv file into a pandas data frame, here is a snippet of that data frame.
+But before I could get into any of the fun topic modeling and analysis some EDA was in order. As per my usual work flow when working with and cleaning data I read the csv file into a pandas data frame for easy data manipulation.
 
 ## The Data
 
-- The data used for this project was taken from the famous Twitter Sentiment Corpus produced by Sanders Analytics LLC.
+- The data used for this project was taken from the Twitter Sentiment Corpus produced by Sanders Analytics LLC.
 - Each of the tweets were hand classified as talking about either Apple, Google, Microsoft, or Twitter as well as having a sentiment of either positive, negative, neutral or irrelevant. For the purposes of this project I decided to ignore the tweets that were labeled as irrelevant.
 - The data also had tweets labeled with the Tweet User ID and the Tweet Date. Both labels were ignored for this project.
 
 ![picture of the dataframe of the csv file](media/other/twitter_df.png)
 
-To get a general feel of the data the first thing I wanted to do was get a word count of all the words in the corpus, except for stop words.
+To get a general feel of the data the first thing I wanted to do was get a word count of all the words in the corpus, excluding stop words.
 
 ![Word Count for Corpus](media/tf/tf_whole_corpus.png)
 
